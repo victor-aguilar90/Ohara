@@ -22,7 +22,7 @@ export default function Index() {
         <TextInput placeholder="Digite seu email" style = {Styles.input} keyboardType="email-address"></TextInput>
         <Text style = {Styles.label}>Senha</Text>
         <TextInput placeholder="Digite sua senha" style = {Styles.input} secureTextEntry={true} keyboardType="visible-password"></TextInput>
-        <TouchableOpacity style={[Styles.botao]}>
+        <TouchableOpacity style={[Styles.botao]} onPress={() => router.push('/principal')}>
           <Text style = {Styles.botaoTexto}>ENTRAR</Text>
         </TouchableOpacity>
         <Text style = {Styles.txt}>Não tem conta ainda?</Text>

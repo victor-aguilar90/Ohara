@@ -7,13 +7,13 @@ export default function Cadastro () {
             <View style = {Styles.form}>
                 <Text style = {Styles.titulo}>Cadastre-se</Text>
                 <Text style = {Styles.label}>Nome Completo</Text>
-                <TextInput style = {Styles.input}/>
+                <TextInput style = {Styles.inp}/>
                 <Text style = {Styles.label}>Email</Text>
-                <TextInput style = {Styles.input} keyboardType="email-address" />
+                <TextInput style = {Styles.inp} keyboardType="email-address" />
                 <Text style = {Styles.label}>Senha</Text>
-                <TextInput style = {Styles.input} maxLength={10} secureTextEntry={true}/>
+                <TextInput style = {Styles.inp} maxLength={10} secureTextEntry={true} />
                 <Text style = {Styles.label}>Confirme sua senha</Text>
-                <TextInput style = {Styles.input} maxLength={10} secureTextEntry={true}/>
+                <TextInput style = {Styles.inp} maxLength={10} secureTextEntry={true} />
                 <TouchableOpacity style={[Styles.botao]}>
                     <Text style = {Styles.botaoTexto}>Criar Conta</Text>
                 </TouchableOpacity>
@@ -50,7 +50,7 @@ const Styles = StyleSheet.create ({
         marginBottom: 6
     },
 
-    input: {
+    inp: {
         fontSize: 16,
         fontFamily: "Light",
         borderBottomColor: "black",
