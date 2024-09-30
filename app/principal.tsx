@@ -4,10 +4,12 @@ import { faBell, faChartColumn, faBookOpen, faClipboard, faBookAtlas  } from '@f
 import { useFonts } from 'expo-font';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { useRouter } from 'expo-router';
 
 dayjs.locale('pt-br');
 
 export default function Principal() {  
+    const router = useRouter();
 
     const dataDia = dayjs().format('DD MMM');
 
@@ -46,8 +48,8 @@ export default function Principal() {
                         <FontAwesomeIcon icon={faClipboard} size={40}/>
                         <Text style = {Styles.botoesTxt}>Declarações</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {Styles.botoes} >
-                        <FontAwesomeIcon icon={faBookOpen} size={40}/>
+                    <TouchableOpacity style = {Styles.botoes} onPress={() => router.push('/atividades')}>
+                        <FontAwesomeIcon icon={faBookOpen} size={40} />
                         <Text style = {Styles.botoesTxt}>Atividades</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {Styles.botoes} >
