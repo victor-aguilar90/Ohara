@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
@@ -26,11 +26,56 @@ export default function Atividades() {
                 </View>
                 <ScrollView contentContainerStyle = {Styles.rolarAtv}>
                     <View style = {Styles.caixa}>
-                        <Text>dsadsadsa</Text>
+                        <View style = {Styles.txt}>
+                            <Text style = {Styles.materia}>DTCC</Text>
+                            <Text style = {Styles.prof}>Prof° Érica</Text>
+                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
+                        </View>
+                        <TouchableOpacity style = {Styles.enviarAtv}>
+                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
+                        </TouchableOpacity>
                     </View>
                     <View style = {Styles.caixa}>
-                        <Text>dsadsadsa</Text>
+                        <View style = {Styles.txt}>
+                            <Text style = {Styles.materia}>DTCC</Text>
+                            <Text style = {Styles.prof}>Prof° Érica</Text>
+                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
+                        </View>
+                        <TouchableOpacity style = {Styles.enviarAtv}>
+                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
+                        </TouchableOpacity>
                     </View>
+                    <View style = {Styles.caixa}>
+                        <View style = {Styles.txt}>
+                            <Text style = {Styles.materia}>DTCC</Text>
+                            <Text style = {Styles.prof}>Prof° Érica</Text>
+                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
+                        </View>
+                        <TouchableOpacity style = {Styles.enviarAtv}>
+                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style = {Styles.caixa}>
+                        <View style = {Styles.txt}>
+                            <Text style = {Styles.materia}>DTCC</Text>
+                            <Text style = {Styles.prof}>Prof° Érica</Text>
+                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
+                        </View>
+                        <TouchableOpacity style = {Styles.enviarAtv}>
+                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style = {Styles.caixa}>
+                        <View style = {Styles.txt}>
+                            <Text style = {Styles.materia}>DTCC</Text>
+                            <Text style = {Styles.prof}>Prof° Érica</Text>
+                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
+                        </View>
+                        <TouchableOpacity style = {Styles.enviarAtv}>
+                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
+                        </TouchableOpacity>
+                    </View>
+                    
                 </ScrollView>
             </View>
         </View>
@@ -48,7 +93,7 @@ const Styles = StyleSheet.create ({
 
     content: {
         width: 310,
-        height: "90%",
+        height: "95%",
         flexDirection: "column",
         alignItems: "center",
     },
@@ -82,8 +127,9 @@ const Styles = StyleSheet.create ({
     },
 
     rolarAtv:{
+        padding: 5,
         width: 307,
-        justifyContent: "center"
+        alignItems: "center"
     },
 
     caixa: {
@@ -95,7 +141,41 @@ const Styles = StyleSheet.create ({
         shadowRadius: 5,
         elevation: 5,
         borderRadius: 15,
-        marginBottom: 40
+        marginBottom: 25,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around"
+    },
+
+    txt: {
+        width: 149,
+        height: 88,
+        flexDirection: "column",
+        justifyContent: "space-between"
+    },
+
+    materia: {
+        fontFamily: "Regular",
+        fontSize: 17
+    },
+
+    prof: {
+        fontFamily: "Light",
+        fontSize: 16
+    },
+
+    descricao: {
+        fontFamily: "Light",
+        fontSize: 14
+    },
+
+    enviarAtv: {
+        width: 54,
+        height: 54,
+        backgroundColor: "black",
+        borderRadius: 100,
+        justifyContent: "center",
+        alignItems: "center"
     }
 
 })
