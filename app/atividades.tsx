@@ -13,13 +13,17 @@ export default function Atividades() {
         'Medium': require('../assets/fonts/Poppins-Medium.ttf'),
         'Light': require('../assets/fonts/Poppins-Light.ttf'),
         
-      });
+    });
+
+    if (!fontsLoaded) {
+        return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
+    }
 
     return(
         <View style = {Styles.container}>
             <View style = {Styles.content}>
                 <View style = {Styles.topo}>
-                    <TouchableOpacity style = {Styles.voltar} onPress={() => router.push('/principal')}>
+                    <TouchableOpacity style = {Styles.voltar} onPress={() => router.back()}>
                         <FontAwesomeIcon icon={faArrowLeft} size={30} />
                     </TouchableOpacity>
                     <Text style = {Styles.titulo}>Atividades</Text>

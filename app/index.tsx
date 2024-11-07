@@ -12,6 +12,10 @@ export default function Index() {
     
   });
 
+  if (!fontsLoaded) {
+    return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
+  }
+
   const router = useRouter();
 
   return (

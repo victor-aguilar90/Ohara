@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { useFonts } from 'expo-font';
 
 export default function Cadastro () {

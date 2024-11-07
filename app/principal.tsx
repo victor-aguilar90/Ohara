@@ -21,6 +21,10 @@ export default function Principal() {
         
       });
 
+    if (!fontsLoaded) {
+        return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
+    }
+
     return (
         <View style={Styles.container}>
             <StatusBar translucent={true} barStyle={"light-content"}/>
