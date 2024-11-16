@@ -56,7 +56,7 @@ export default function Principal() {
                         <FontAwesomeIcon icon={faBookOpen} size={40} />
                         <Text style = {Styles.botoesTxt}>Atividades</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {Styles.botoes} >
+                    <TouchableOpacity style = {Styles.botoes} onPress={() => router.push('/biblioteca')}>
                         <FontAwesomeIcon icon={faBookAtlas} size={40}/>
                         <Text style = {Styles.botoesTxt}>Biblioteca</Text>
                     </TouchableOpacity>
@@ -104,10 +104,7 @@ const Styles = StyleSheet.create ({
         height: 300,
         borderRadius: 20,
         backgroundColor: "white",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         alignItems: "center",
         justifyContent: "center",
         marginBottom: 20
@@ -143,9 +140,7 @@ const Styles = StyleSheet.create ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25, 
-        shadowRadius: 4,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         elevation: 5,
         borderRadius: 20,
         backgroundColor: "white"

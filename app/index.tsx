@@ -21,15 +21,15 @@ export default function Index() {
       ) : (
         <View style={Styles.form}>
           <Text style={Styles.titulo}>Login</Text>
-          <Text style={Styles.label}>Email</Text>
-          <TextInput placeholder="Digite seu email" style={Styles.input} keyboardType="email-address" />
+          <Text style={Styles.label}>RM</Text>
+          <TextInput placeholder="Digite seu rm" style={Styles.input} keyboardType="email-address" />
           <Text style={Styles.label}>Senha</Text>
           <TextInput placeholder="Digite sua senha" style={Styles.input} secureTextEntry={true} keyboardType="visible-password" />
           <Pressable style={Styles.botao} onPress={() => router.push('/principal')}>
             <Text style={Styles.botaoTexto}>ENTRAR</Text>
           </Pressable>
-          <Text style={Styles.txt}>Não tem conta ainda?</Text>
-          <Text style={Styles.cadastro} onPress={() => router.push('/cadastro')}>Crie uma conta</Text>
+          <Text style={Styles.txt}>Esqueceu a senha?</Text>
+          <Text style={Styles.cadastro} onPress={() => router.push('/cadastro')}>Trocar senha</Text>
         </View>
       )}
     </View>
@@ -72,10 +72,8 @@ const Styles = StyleSheet.create ({
     alignItems:"center",
     borderRadius: 10,
     marginTop: 12,
-    shadowColor:"#000",
-    shadowOffset: {height: 4, width: 0},
-    shadowOpacity: 0.2,
-    elevation: 4,
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    elevation: 5,
   },
 
   botaoTexto: {

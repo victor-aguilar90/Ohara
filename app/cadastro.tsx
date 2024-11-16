@@ -68,10 +68,8 @@ const Styles = StyleSheet.create ({
         alignItems:"center",
         borderRadius: 10,
         marginTop: 12,
-        shadowColor:"#000",
-        shadowOffset: {height: 4, width: 0},
-        shadowOpacity: 0.2,
-        elevation: 4,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        elevation: 5,
     },
 
     botaoTexto: {

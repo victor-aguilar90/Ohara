@@ -79,9 +79,7 @@ const Styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 100,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     elevation: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -106,7 +104,7 @@ const Styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     borderRadius: 10,
-    marginBottom: 20
+    marginBottom: 20,
   },
 
   txt: {
@@ -119,9 +117,7 @@ const Styles = StyleSheet.create({
   picker: {
     width: "80%",
     height: 50,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     elevation: 5,
     backgroundColor: "white",
     marginBottom: 20,
@@ -153,10 +149,7 @@ const Styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     borderRadius: 10,
-    shadowColor:"#000",
-    shadowOffset: {height: 4, width: 0},
-    shadowOpacity: 0.2,
-    elevation: 4,
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
   },
 
   botaoTexto: {
@@ -168,10 +161,8 @@ const Styles = StyleSheet.create({
   protocolos: {
     width: "80%",
     height: 240,
-    shadowColor:"#000",
-    shadowOffset: {height: 3, width: 0},
-    shadowOpacity: 0.2,
-    elevation: 4,
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    elevation: 5,
     backgroundColor: "white",
     borderRadius:10,
     justifyContent: "center",
