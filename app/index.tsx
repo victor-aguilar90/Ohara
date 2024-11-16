@@ -1,4 +1,4 @@
-import { Text, View, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, TextInput, StyleSheet, Pressable, ActivityIndicator } from "react-native";
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 
@@ -12,26 +12,26 @@ export default function Index() {
     
   });
 
-  if (!fontsLoaded) {
-    return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
-  }
-
   const router = useRouter();
 
   return (
-    <View style = {Styles.container}>
-      <View style = {Styles.form}>
-        <Text style = {Styles.titulo}>Login</Text>
-        <Text style = {Styles.label}>Email</Text>
-        <TextInput placeholder="Digite seu email" style = {Styles.input} keyboardType="email-address"></TextInput>
-        <Text style = {Styles.label}>Senha</Text>
-        <TextInput placeholder="Digite sua senha" style = {Styles.input} secureTextEntry={true} keyboardType="visible-password"></TextInput>
-        <TouchableOpacity style={[Styles.botao]} onPress={() => router.push('/principal')}>
-          <Text style = {Styles.botaoTexto}>ENTRAR</Text>
-        </TouchableOpacity>
-        <Text style = {Styles.txt}>Não tem conta ainda?</Text>
-        <Text style = {Styles.cadastro} onPress={() => router.push('/cadastro')}>Crie uma conta</Text>
-      </View>
+    <View style={Styles.container}>
+      {!fontsLoaded ? (
+        <ActivityIndicator size="large" color="#000" />
+      ) : (
+        <View style={Styles.form}>
+          <Text style={Styles.titulo}>Login</Text>
+          <Text style={Styles.label}>Email</Text>
+          <TextInput placeholder="Digite seu email" style={Styles.input} keyboardType="email-address" />
+          <Text style={Styles.label}>Senha</Text>
+          <TextInput placeholder="Digite sua senha" style={Styles.input} secureTextEntry={true} keyboardType="visible-password" />
+          <Pressable style={Styles.botao} onPress={() => router.push('/principal')}>
+            <Text style={Styles.botaoTexto}>ENTRAR</Text>
+          </Pressable>
+          <Text style={Styles.txt}>Não tem conta ainda?</Text>
+          <Text style={Styles.cadastro} onPress={() => router.push('/cadastro')}>Crie uma conta</Text>
+        </View>
+      )}
     </View>
   );
 }

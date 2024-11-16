@@ -48,7 +48,7 @@ export default function Principal() {
                         <FontAwesomeIcon icon={faChartColumn} size={40}/>
                         <Text style = {Styles.botoesTxt}>Gráfico do Aluno</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {Styles.botoes} >
+                    <TouchableOpacity style = {Styles.botoes} onPress={() => router.push('/declaracoes')} >
                         <FontAwesomeIcon icon={faClipboard} size={40}/>
                         <Text style = {Styles.botoesTxt}>Declarações</Text>
                     </TouchableOpacity>
