@@ -2,16 +2,34 @@ import { Text, View, TextInput, StyleSheet, Pressable, Image, FlatList, ScrollVi
 import { faArrowLeft, faIcons, faHeart, faMagnifyingGlass, faBookmark} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
-import { useRouter } from 'expo-router';
+import { useRouter, useGlobalSearchParams } from 'expo-router';
 
 export default function Biblioteca() {
 
     const filmes = [
-        { id: '1', titulo: 'Vingadores: Ultimato', imagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg' },
-        { id: '2', titulo: 'Coringa', imagem: 'https://ocapista.com.br/imgs/capas/livro_de_horror_capa_livro_2.jpg' },
-        { id: '3', titulo: 'Homem-Aranha', imagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia_romance.jpg' },
-        // Adicione mais filmes ou séries
-      ];
+        { 
+            id: '1', 
+            titulo: 'Mestres do tempo', 
+            autor: 'H.G. Wells', 
+            descricao: 'Uma fascinante jornada pelo tempo e suas possibilidades.', 
+            imagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg' 
+        },
+        { 
+            id: '2', 
+            titulo: 'Sessão da Meia-Noite', 
+            autor: 'Edgar Allan Poe', 
+            descricao: 'Contos sombrios que exploram os medos mais profundos da humanidade.', 
+            imagem: 'https://ocapista.com.br/imgs/capas/livro_de_horror_capa_livro_2.jpg' 
+        },
+        { 
+            id: '3', 
+            titulo: 'Filhas da lua', 
+            autor: 'Sarah J. Maas', 
+            descricao: 'Uma história épica sobre magia, amor e sacrifício.', 
+            imagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia_romance.jpg' 
+        },
+        // Adicione mais itens
+    ];
 
     const [fontsLoaded] = useFonts({
     'Regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -34,9 +52,9 @@ export default function Biblioteca() {
         <View style = {Styles.itens}>
             <Pressable style = {Styles.botoes}>
                 <FontAwesomeIcon icon={faBookmark} size={38} />
-                <Text style = {Styles.txtBotao}>Emprestimos</Text>
+                <Text style = {Styles.txtBotao}>Reservas</Text>
             </Pressable>
-            <Pressable style = {Styles.botoes}>
+            <Pressable style = {Styles.botoes} onPress={() => router.push("/favoritos")}>
                 <FontAwesomeIcon icon={faHeart} size={38}/>
                 <Text style = {Styles.txtBotao}>Favoritos</Text>
             </Pressable>
@@ -54,7 +72,18 @@ export default function Biblioteca() {
             <FlatList
                 data={filmes}
                 renderItem={({ item }) => (
-                    <Pressable style={Styles.item}>
+                    <Pressable 
+                        style={Styles.item} 
+                        onPress={() => router.push({
+                        pathname: '/livro',
+                        params: {
+                            titulo: item.titulo,
+                            imagem: item.imagem,
+                            autor: item.autor,
+                            descricao: item.descricao
+                            }
+                        })}
+>
                         <Image source={{ uri: item.imagem }} style={Styles.imagem} />
                     </Pressable>
                 )}
@@ -68,7 +97,18 @@ export default function Biblioteca() {
             <FlatList
                 data={filmes}
                 renderItem={({ item }) => (
-                    <Pressable style={Styles.item} onPress={() => router.push('/livro')}>
+                    <Pressable 
+                        style={Styles.item} 
+                        onPress={() => router.push({
+                        pathname: '/livro',
+                        params: {
+                            titulo: item.titulo,
+                            imagem: item.imagem,
+                            autor: item.autor,
+                            descricao: item.descricao
+                            }
+                        })}
+>
                         <Image source={{ uri: item.imagem }} style={Styles.imagem} />
                     </Pressable>
                 )}
@@ -82,7 +122,18 @@ export default function Biblioteca() {
             <FlatList
                 data={filmes}
                 renderItem={({ item }) => (
-                    <Pressable style={Styles.item}>
+                    <Pressable 
+                        style={Styles.item} 
+                        onPress={() => router.push({
+                        pathname: '/livro',
+                        params: {
+                            titulo: item.titulo,
+                            imagem: item.imagem,
+                            autor: item.autor,
+                            descricao: item.descricao
+                            }
+                        })}
+>
                         <Image source={{ uri: item.imagem }} style={Styles.imagem} />
                     </Pressable>
                 )}
@@ -116,7 +167,6 @@ const Styles = StyleSheet.create ({
         width: 60,
         height: 60,
         borderRadius: 100,
-        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
@@ -173,8 +223,8 @@ const Styles = StyleSheet.create ({
     imagem: {
         width: 135,
         height: "80%",
-        borderRadius: 10,
-        boxShadow: '0px 3px 4px rgba(0, 0, 0, 0.25)',
+        borderRadius: 5,
+        boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.35)',
         elevation: 4
     }
 

@@ -37,11 +37,11 @@ export default function Principal() {
                     <FontAwesomeIcon icon={faBell} size={36} />
                 </View>
                 <View style = {Styles.caixa}>
-                    <Image style = {Styles.imgAluno}></Image>
+                    <Image style = {Styles.imgAluno} source={{uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwr_zZjgvmu4BccwDNIHic8K5dyehw7cSYA&s"}}></Image>
                     <Text style = {Styles.labels}>Curso:</Text>
                     <Text style = {Styles.dados} >Desenvolvimento de Sistemas</Text>
                     <Text style = {Styles.labels}>Semestre:</Text>
-                    <Text style = {Styles.dados}>3° Semestre</Text>
+                    <Text style = {Styles.dados}>3°DS</Text>
                 </View>
                 <View style = {Styles.caixaBotoes}>
                     <TouchableOpacity style = {Styles.botoes} >
@@ -79,6 +79,7 @@ const Styles = StyleSheet.create ({
         height: 727,
     },
     topo: {
+        marginTop: 10,
         width: 293,
         height: 49,
         display: "flex",

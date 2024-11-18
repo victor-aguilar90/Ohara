@@ -3,6 +3,7 @@ import { faArrowLeft, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
+import CaixaAtividade from "@/components/CaixaAtividade";
 
 export default function Atividades() {
     const router = useRouter();
@@ -19,6 +20,14 @@ export default function Atividades() {
         return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
     }
 
+    const atividades = [
+        { materia: "DTCC", professor: "Prof° Érica", descricao: "Descrição da atividade 1" },
+        { materia: "Matemática", professor: "Prof° João", descricao: "Descrição da atividade 2" },
+        { materia: "História", professor: "Prof° Ana", descricao: "Descrição da atividade 3" },
+        { materia: "Física", professor: "Prof° Carlos", descricao: "Descrição da atividade 4" },
+        { materia: "Química", professor: "Prof° Lucas", descricao: "Descrição da atividade 5" },
+      ];
+
     return(
         <View style = {Styles.container}>
             <View style = {Styles.content}>
@@ -29,57 +38,14 @@ export default function Atividades() {
                     <Text style = {Styles.titulo}>Atividades</Text>
                 </View>
                 <ScrollView contentContainerStyle = {Styles.rolarAtv}>
-                    <View style = {Styles.caixa}>
-                        <View style = {Styles.txt}>
-                            <Text style = {Styles.materia}>DTCC</Text>
-                            <Text style = {Styles.prof}>Prof° Érica</Text>
-                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
-                        </View>
-                        <TouchableOpacity style = {Styles.enviarAtv}>
-                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style = {Styles.caixa}>
-                        <View style = {Styles.txt}>
-                            <Text style = {Styles.materia}>DTCC</Text>
-                            <Text style = {Styles.prof}>Prof° Érica</Text>
-                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
-                        </View>
-                        <TouchableOpacity style = {Styles.enviarAtv}>
-                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style = {Styles.caixa}>
-                        <View style = {Styles.txt}>
-                            <Text style = {Styles.materia}>DTCC</Text>
-                            <Text style = {Styles.prof}>Prof° Érica</Text>
-                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
-                        </View>
-                        <TouchableOpacity style = {Styles.enviarAtv}>
-                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style = {Styles.caixa}>
-                        <View style = {Styles.txt}>
-                            <Text style = {Styles.materia}>DTCC</Text>
-                            <Text style = {Styles.prof}>Prof° Érica</Text>
-                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
-                        </View>
-                        <TouchableOpacity style = {Styles.enviarAtv}>
-                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style = {Styles.caixa}>
-                        <View style = {Styles.txt}>
-                            <Text style = {Styles.materia}>DTCC</Text>
-                            <Text style = {Styles.prof}>Prof° Érica</Text>
-                            <Text style = {Styles.descricao}>dskdoaksodksadasdkosadosada</Text>
-                        </View>
-                        <TouchableOpacity style = {Styles.enviarAtv}>
-                            <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"}/>
-                        </TouchableOpacity>
-                    </View>
-                    
+                    {atividades.map((atividade, index) => (
+                        <CaixaAtividade
+                            key={index}
+                            materia={atividade.materia}
+                            professor={atividade.professor}
+                            descricao={atividade.descricao}
+                        />
+                    ))} 
                 </ScrollView>
             </View>
         </View>
@@ -132,49 +98,4 @@ const Styles = StyleSheet.create ({
         width: 307,
         alignItems: "center"
     },
-
-    caixa: {
-        width: 300,
-        height: 130,
-        backgroundColor: "white",
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        elevation: 5,
-        borderRadius: 15,
-        marginBottom: 25,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around"
-    },
-
-    txt: {
-        width: 149,
-        height: 88,
-        flexDirection: "column",
-        justifyContent: "space-between"
-    },
-
-    materia: {
-        fontFamily: "Regular",
-        fontSize: 17
-    },
-
-    prof: {
-        fontFamily: "Light",
-        fontSize: 16
-    },
-
-    descricao: {
-        fontFamily: "Light",
-        fontSize: 14
-    },
-
-    enviarAtv: {
-        width: 54,
-        height: 54,
-        backgroundColor: "black",
-        borderRadius: 100,
-        justifyContent: "center",
-        alignItems: "center"
-    }
-
 })

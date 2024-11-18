@@ -3,7 +3,7 @@ import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 export default function Livro() {
 
@@ -15,28 +15,39 @@ export default function Livro() {
     
     });
 
+    if (!fontsLoaded) {
+      return <Text>Carregando...</Text>;
+    }
+
   const router = useRouter();
 
+
+  const { titulo = 'Título não encontrado', imagem, autor, descricao } = useLocalSearchParams(); // useLocalSearchParams é usado aqui
+
   return (
-    <View style = {Styles.container}>
-        <View style = {Styles.topo}>
-            <Pressable style = {Styles.voltar} onPress={() => router.back()}>
-                <FontAwesomeIcon icon={faArrowLeft} size={30} />
-            </Pressable>
-            <Text style = {Styles.titulo}>Detalhes</Text>
-        </View>
-        <Image source={{uri: "https://ocapista.com.br/imgs/capas/capa_livro_fantasia_romance.jpg"}} style={Styles.imagem} resizeMode="cover"/>
-        <Text style = {Styles.tituloLivro}>Filhas da Lua</Text>
-        <Text style = {Styles.autorLivro}>Carolina França</Text>
-        <Text style = {Styles.descricao}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse eos corrupti architecto, deserunt accusantium cum, nulla culpa tempore facere, dignissimos nisi? Modi fuga unde quam similique, est veniam tempora nostrum!</Text>
-        <View style = {Styles.botoes}>
-            <Pressable style = {Styles.botao1}>
-                <FontAwesomeIcon icon={faHeart} size={30}/>
-            </Pressable>
-            <Pressable style = {Styles.botao2}>
-                <Text style = {Styles.txtBotao}>RESERVAR</Text>
-            </Pressable>
-        </View>
+    <View style={Styles.container}>
+      <View style={Styles.topo}>
+        <Pressable style={Styles.voltar} onPress={() => router.back()}>
+          <FontAwesomeIcon icon={faArrowLeft} size={30} />
+        </Pressable>
+        <Text style={Styles.titulo}>Detalhes</Text>
+      </View>
+      {imagem ? (
+        <Image source={{ uri: imagem }} style={Styles.imagem} resizeMode="cover" />
+      ) : (
+        <Text>Imagem não disponível</Text>
+      )}
+      <Text style={Styles.tituloLivro}>{titulo}</Text>
+      <Text style={Styles.autorLivro}>{autor}</Text>
+      <Text style={Styles.descricao}>{descricao}</Text>
+      <View style={Styles.botoes}>
+        <Pressable style={Styles.botao1}>
+          <FontAwesomeIcon icon={faHeart} size={30} />
+        </Pressable>
+        <Pressable style={Styles.botao2}>
+          <Text style={Styles.txtBotao}>RESERVAR</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -78,7 +89,7 @@ const Styles = StyleSheet.create ({
         width: 155, 
         height: 250, 
         borderRadius: 10, 
-        boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.30)',
+        boxShadow: '0px 3px 20px rgba(0, 0, 0, 0.35)',
         elevation: 6,
         marginBottom: 20
     },
@@ -103,6 +114,10 @@ const Styles = StyleSheet.create ({
     },
 
     botoes: {
+        position: "absolute",
+        left:"10%",
+        bottom: 30,
+        right:"10%",
         width: "80%",
         height: 70,
         alignItems: "center",
@@ -111,8 +126,8 @@ const Styles = StyleSheet.create ({
     },
 
     botao1: {
-        width: "25%",
-        height: "100%",
+        width: "20%",
+        height: "80%",
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "white",
@@ -122,7 +137,7 @@ const Styles = StyleSheet.create ({
     },
 
     botao2: {
-        width: "70%",
+        width: "75%",
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
