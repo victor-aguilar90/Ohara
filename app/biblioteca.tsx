@@ -62,8 +62,8 @@ export default function Biblioteca() {
                 <FontAwesomeIcon icon={faIcons} size={38} />
                 <Text style = {Styles.txtBotao}>Categorias</Text>
             </Pressable>
-            <Pressable style = {Styles.botoes}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} size={38}/>
+            <Pressable style = {Styles.botoes} onPress={() => router.push("/procurar")}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} size={38} />
                 <Text style = {Styles.txtBotao}>Pesquisar</Text>
             </Pressable>
         </View>

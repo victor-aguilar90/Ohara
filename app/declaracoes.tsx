@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Pressable, TextInput} from "react-native";
+import { Text, View, StyleSheet, Pressable, TextInput, Modal} from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
@@ -23,6 +23,17 @@ const [selectedValue, setSelectedValue] = useState('declaracao1');
     return null;
   }
 
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  
+  const mostrarPopupTempo = () => {
+    setModalVisible(true);
+
+    setTimeout(() => {
+      setModalVisible(false);
+    }, 2500); 
+  };
+
   return (
     <View style={Styles.container}>
       <View style={Styles.topo}>
@@ -42,8 +53,8 @@ const [selectedValue, setSelectedValue] = useState('declaracao1');
           <Picker.Item style={Styles.pickerTxt} label="Declaração 1" value="Decla" />
         </Picker>
         <Text style = {Styles.txt}>Motivo da solicitação</Text>
-        <TextInput placeholder="Digite aqui o motivo" style = {Styles.input} />
-        <Pressable style={Styles.botao}>
+        <TextInput placeholder="Digite aqui o motivo" style = {Styles.input}/>
+        <Pressable style={Styles.botao} onPress={mostrarPopupTempo}>
             <Text style={Styles.botaoTexto}>SOLICITAR</Text>
         </Pressable>
       </View>
@@ -56,6 +67,21 @@ const [selectedValue, setSelectedValue] = useState('declaracao1');
             <Text style={Styles.botaoTexto}>CONSULTAR</Text>
         </Pressable>
       </View>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible} 
+        onRequestClose={() => setModalVisible(false)} 
+      >
+        <View style={Styles.fundo}>
+          <View style={Styles.popup}>
+            <FontAwesomeIcon icon={faCircleCheck} size={45} color="green"/>
+            <Text style={Styles.txtPopup}>Solicitação feita com sucesso!</Text>
+          </View>
+        </View>
+
+      </Modal>
     </View>
   );
 }
@@ -175,6 +201,30 @@ const Styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 5,
     marginTop: 10
+  },
+
+  fundo: {
+    flex:1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+
+  popup: {
+    width: "80%",
+    height: 200,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius:10
+  },
+
+  txtPopup: {
+    fontFamily:"Regular",
+    fontSize:16,
+    width: "50%",
+    textAlign: "center",
+    marginTop: 15
   }
 
 

@@ -81,7 +81,6 @@ const Styles = StyleSheet.create ({
         width: 60,
         height: 60,
         borderRadius: 100,
-        borderWidth: 1,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
@@ -95,7 +94,7 @@ const Styles = StyleSheet.create ({
 
     rolarAtv:{
         padding: 5,
-        width: 307,
+        width: "80%",
         alignItems: "center"
     },
 })
