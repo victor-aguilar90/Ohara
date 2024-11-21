@@ -35,7 +35,7 @@ export default function Declaracoes() {
   };
   const solicitarDeclaracao = async () => {
     try {
-      const response = await fetch('http://192.168.10.181:3000/solicitar-declaracao', {
+      const response = await fetch('http://192.168.43.205:3000/solicitar-declaracao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function Declaracoes() {
 
   const consultarDeclaracao = async () => {
     try {
-      const response = await fetch(`http://192.168.10.181:3000/consultar-declaracao/${protocolo}`);
+      const response = await fetch(`http://192.168.43.205:3000/consultar-declaracao/${protocolo}`);
       const data = await response.json();
       if (response.ok) {
         setStatus(data.status);  // Atribui o status retornado

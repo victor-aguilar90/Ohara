@@ -22,7 +22,7 @@ export default function Index() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://192.168.10.181:3000/login', { // IP do servidor backend
+      const response = await fetch('http://192.168.43.205:3000/login', { // IP do servidor backend
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
