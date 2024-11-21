@@ -22,7 +22,7 @@ export default function Index() {
         <View style={Styles.form}>
           <Text style={Styles.titulo}>Login</Text>
           <Text style={Styles.label}>RM</Text>
-          <TextInput placeholder="Digite seu rm" style={Styles.input} keyboardType="email-address" />
+          <TextInput placeholder="Digite seu RM" style={Styles.input} keyboardType="email-address" />
           <Text style={Styles.label}>Senha</Text>
           <TextInput placeholder="Digite sua senha" style={Styles.input} secureTextEntry={true} keyboardType="visible-password" />
           <Pressable style={Styles.botao} onPress={() => router.push('/principal')}>
