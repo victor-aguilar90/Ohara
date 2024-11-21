@@ -1,4 +1,5 @@
 import { View, Text, Image, StyleSheet } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 interface CaixaFavoritosProps {
     urlImagem: string;
@@ -26,7 +27,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-    borderRadius: 10 // Adicionando um pequeno espaçamento entre os itens
+    borderRadius: 10 
   },
   imagem: {
     width: "35%",
@@ -44,13 +45,13 @@ const Styles = StyleSheet.create({
     marginRight: 20// Pequeno espaçamento à esquerda para os textos
   },
   titulo: {
-    fontFamily: "Medium", // Verifique se a fonte 'Medium' está carregada corretamente no seu projeto
-    fontSize: 18, // Ajustei o tamanho da fonte para o título
+    fontFamily: "Medium", 
+    fontSize: RFPercentage(2.8), // Ajustei o tamanho da fonte para o título
     marginBottom: 5, // Espaçamento abaixo do título
   },
   descricao: {
-    fontFamily: "Light", // Certifique-se de que a fonte 'Light' também está carregada
-    fontSize: 14, // Ajustei o tamanho da fonte para a descrição
+    fontFamily: "Light", 
+    fontSize: RFPercentage(2), // Ajustei o tamanho da fonte para a descrição
   },
 });
 

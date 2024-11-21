@@ -1,10 +1,10 @@
 import { Text, View, StyleSheet, Pressable, Image, ScrollView} from "react-native";
 import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter} from 'expo-router';
-import CaixaFavoritos from '@/components/CaixaFavoritos'
+import CaixaFavoritos from '@/components/CaixaFavoritos';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 
 export default function Favoritos() {
@@ -97,7 +97,7 @@ const Styles = StyleSheet.create ({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: 30
+        fontSize: RFPercentage(3.8)
     },
 
     favoritos: {

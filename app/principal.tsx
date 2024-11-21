@@ -107,7 +107,7 @@ const Styles = StyleSheet.create ({
         height: 300,
         borderRadius: 20,
         backgroundColor: "white",
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
         alignItems: "center",
         justifyContent: "center",
         marginBottom: 20
@@ -143,7 +143,7 @@ const Styles = StyleSheet.create ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
         elevation: 5,
         borderRadius: 20,
         backgroundColor: "white"

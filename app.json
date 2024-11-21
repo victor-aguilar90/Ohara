@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "Ohara",
     "slug": "Ohara",
     "version": "1.0.0",
