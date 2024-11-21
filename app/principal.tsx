@@ -5,6 +5,8 @@ import { useFonts } from 'expo-font';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import { useRouter } from 'expo-router';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+
 
 dayjs.locale('pt-br');
 
@@ -94,11 +96,11 @@ const Styles = StyleSheet.create ({
     },
     diaMes: {
         fontFamily: "Light",
-        fontSize: 16
+        fontSize: RFPercentage(2)
     },
     txt: {
         fontFamily: "Regular",
-        fontSize: 26,
+        fontSize: RFPercentage(3.2),
     },
     caixa: {
         width: 293,
@@ -120,12 +122,12 @@ const Styles = StyleSheet.create ({
     labels: {
         width: 243,
         fontFamily: "Regular",
-        fontSize: 16
+        fontSize: RFPercentage(2.1)
     },
     dados: {
         width: 243,
         fontFamily: "Light",
-        fontSize: 15,
+        fontSize: RFPercentage(2),
         marginBottom: 15
     },
     caixaBotoes: {
@@ -149,7 +151,7 @@ const Styles = StyleSheet.create ({
     botoesTxt: {
         width: 95,
         textAlign: "center",
-        fontSize: 15,
+        fontSize: RFPercentage(2.2),
         fontFamily: "Light",
         marginTop: 10
     }

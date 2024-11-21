@@ -5,6 +5,8 @@ import { faArrowLeft, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+
 
 export default function Declaracoes() {
 
@@ -100,6 +102,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+  
   voltar: {
     backgroundColor: "white",
     width: 60,
@@ -115,7 +118,7 @@ const Styles = StyleSheet.create({
 
   titulo: {
     fontFamily: "Regular",
-    fontSize: 25,
+    fontSize: RFPercentage(3.5),
   },
 
   declaracoes: {
@@ -136,7 +139,7 @@ const Styles = StyleSheet.create({
   txt: {
     textAlign: "center",
     fontFamily: "Regular",
-    fontSize: 18,
+    fontSize: RFPercentage(2.4),
     marginBottom: 10
   },
 
@@ -162,7 +165,7 @@ const Styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 5,
-    fontSize: 14,
+    fontSize: RFPercentage(2),
     fontFamily: "Light",
     marginBottom: 25,
   },
@@ -180,14 +183,14 @@ const Styles = StyleSheet.create({
 
   botaoTexto: {
     fontFamily:'SemiBold',
-    fontSize: 18,
+    fontSize: RFPercentage(2.7),
     color: "white"
   },
 
   protocolos: {
     width: "80%",
     height: 240,
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
     elevation: 5,
     backgroundColor: "white",
     borderRadius:10,
@@ -196,7 +199,7 @@ const Styles = StyleSheet.create({
   },
   txtP: {
     width: "80%",
-    fontSize: 16,
+    fontSize: RFPercentage(2.2),
     fontFamily: "Regular",
     textAlign: "left",
     marginBottom: 5,
@@ -221,7 +224,7 @@ const Styles = StyleSheet.create({
 
   txtPopup: {
     fontFamily:"Regular",
-    fontSize:16,
+    fontSize:RFPercentage(2),
     width: "50%",
     textAlign: "center",
     marginTop: 15

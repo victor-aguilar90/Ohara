@@ -14,6 +14,5 @@ export default function Notas() {
     if (!fontsLoaded) {
         return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
     }
-
     
 }

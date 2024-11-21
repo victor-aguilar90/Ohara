@@ -4,6 +4,8 @@ import { faCircleCheck} from '@fortawesome/free-solid-svg-icons';
 import { useFonts } from 'expo-font';
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+
 
 export default function Senha () {
 
@@ -79,7 +81,7 @@ const Styles = StyleSheet.create ({
     },
 
     tituloRec: { 
-        fontSize: 24,
+        fontSize: RFPercentage(3),
         fontFamily: "Regular",
         width: "100%",
         marginBottom: 10
@@ -89,14 +91,14 @@ const Styles = StyleSheet.create ({
         width:"100%",
         textAlign: "left",
         fontFamily: "Light",
-        fontSize: 14,
+        fontSize: RFPercentage(2),
         marginBottom: 15
     },
 
     label: {
         fontFamily:"Regular",
         width: "100%",
-        fontSize: 18,
+        fontSize: RFPercentage(2.7),
         marginBottom: 3
     },
 
@@ -106,7 +108,7 @@ const Styles = StyleSheet.create ({
         boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)',
         borderRadius: 10,
         fontFamily: "Light",
-        fontSize: 15,
+        fontSize: RFPercentage(2),
         paddingLeft: 10,
         marginBottom: 15
 
@@ -127,7 +129,7 @@ const Styles = StyleSheet.create ({
     
     botaoTexto: {
        fontFamily:'Medium',
-       fontSize: 18,
+       fontSize: RFPercentage(2.7),
        color: "white"
     },
 
@@ -149,7 +151,7 @@ const Styles = StyleSheet.create ({
     
       txtPopup: {
         fontFamily:"Regular",
-        fontSize:16,
+        fontSize:RFPercentage(2),
         width: "50%",
         textAlign: "center",
         marginTop: 15

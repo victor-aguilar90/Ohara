@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const CaixaAtividade = ({ materia, professor, descricao }) => (
   <View style={Styles.caixa}>
@@ -17,7 +18,7 @@ const CaixaAtividade = ({ materia, professor, descricao }) => (
 
 const Styles = StyleSheet.create({
   caixa: {
-    width: 300,
+    width: "100%",
     height: 130,
     backgroundColor: "white",
     boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.35)',
@@ -29,30 +30,31 @@ const Styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   txt: {
-    width: 149,
+    width: "50%",
     height: 88,
     flexDirection: "column",
     justifyContent: "space-between",
   },
   materia: {
     fontFamily: "Regular",
-    fontSize: 17,
+    fontSize: RFPercentage(2.3),
   },
   prof: {
     fontFamily: "Regular",
-    fontSize: 14,
+    fontSize: RFPercentage(2.1),
   },
   descricao: {
     fontFamily: "Light",
-    fontSize: 14,
+    fontSize: RFPercentage(1.9),
   },
   enviarAtv: {
-    width: 54,
-    height: 54,
+    width: 60,
+    height: 60,
     backgroundColor: "black",
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
+    marginRight: 15
   },
 });
 

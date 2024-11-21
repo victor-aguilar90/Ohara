@@ -3,6 +3,7 @@ import { faArrowLeft, faIcons, faHeart, faMagnifyingGlass, faBookmark} from '@fo
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter, useGlobalSearchParams } from 'expo-router';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export default function Biblioteca() {
 
@@ -38,6 +39,8 @@ export default function Biblioteca() {
     'Light': require('../assets/fonts/Poppins-Light.ttf'),
     
     });
+
+    
 
   const router = useRouter();
 
@@ -175,7 +178,7 @@ const Styles = StyleSheet.create ({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: 30
+        fontSize: RFPercentage(4)
     },
 
     itens: {
@@ -199,7 +202,7 @@ const Styles = StyleSheet.create ({
 
     txtBotao: {
         fontFamily: "Regular",
-        fontSize: 15,
+        fontSize: RFPercentage(2),
         marginTop: 15
     },
 
@@ -211,7 +214,7 @@ const Styles = StyleSheet.create ({
 
     txtLivros: {
         fontFamily: "Medium",
-        fontSize: 28,
+        fontSize: RFPercentage(3.9),
         marginBottom: 5
     },
 

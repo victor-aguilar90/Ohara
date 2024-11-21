@@ -17,6 +17,10 @@ export default function Favoritos() {
     
     });
 
+    if (!fontsLoaded) {
+        return <Text>Carregando...</Text>;
+    }
+
     
   
   const router = useRouter();

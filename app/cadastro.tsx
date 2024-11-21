@@ -4,6 +4,7 @@ import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import { useFonts } from 'expo-font';
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export default function Cadastro () {
 
@@ -91,7 +92,7 @@ const Styles = StyleSheet.create ({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: 24,
+        fontSize: RFPercentage(3.7),
         marginLeft: 30
     },
 
@@ -104,7 +105,7 @@ const Styles = StyleSheet.create ({
     },
 
     tituloRec: { 
-        fontSize: 24,
+        fontSize: RFPercentage(3.2),
         fontFamily: "Regular",
         width: "100%",
         marginBottom: 10
@@ -114,14 +115,14 @@ const Styles = StyleSheet.create ({
         width:"100%",
         textAlign: "left",
         fontFamily: "Light",
-        fontSize: 14,
+        fontSize: RFPercentage(2),
         marginBottom: 15
     },
 
     label: {
         fontFamily:"Regular",
         width: "100%",
-        fontSize: 20,
+        fontSize: RFPercentage(3),
         marginBottom: 3
     },
 
@@ -131,7 +132,7 @@ const Styles = StyleSheet.create ({
         boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)',
         borderRadius: 10,
         fontFamily: "Light",
-        fontSize: 15,
+        fontSize: RFPercentage(2),
         paddingLeft: 10
 
     },
@@ -151,7 +152,7 @@ const Styles = StyleSheet.create ({
     
     botaoTexto: {
        fontFamily:'Medium',
-       fontSize: 21,
+       fontSize: RFPercentage(3),
        color: "white"
     },
 
@@ -174,13 +175,13 @@ const Styles = StyleSheet.create ({
 
       txtPopup: {
         fontFamily: "Medium",
-        fontSize: 19,
+        fontSize: RFPercentage(2.9),
         marginBottom: 10
       },
 
       subPopup: {
         fontFamily: "Light",
-        fontSize: 14,
+        fontSize: RFPercentage(2),
         marginBottom: 15
       },
 
@@ -190,7 +191,7 @@ const Styles = StyleSheet.create ({
         boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)',
         borderRadius: 10,
         fontFamily: "Light",
-        fontSize: 14,
+        fontSize: RFPercentage(2),
         paddingLeft: 10
       }
 

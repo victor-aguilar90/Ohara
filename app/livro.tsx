@@ -4,6 +4,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export default function Livro() {
 
@@ -81,13 +82,13 @@ const Styles = StyleSheet.create ({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: 27,
+        fontSize: RFPercentage(3.5),
         marginLeft: 30
     },
 
     imagem: {
         width: 155, 
-        height: 250, 
+        height: 230, 
         borderRadius: 10, 
         boxShadow: '0px 3px 20px rgba(0, 0, 0, 0.35)',
         elevation: 6,
@@ -95,20 +96,22 @@ const Styles = StyleSheet.create ({
     },
 
     tituloLivro: {
+        width: "80%",
+        textAlign: "center",
         fontFamily: "Medium",
-        fontSize: 27
+        fontSize: RFPercentage(3.7)
     },
 
     autorLivro: {
         fontFamily: "Light",
-        fontSize: 14,
+        fontSize: RFPercentage(2.1),
         marginBottom:15
     },
 
     descricao: {
         width: "80%",
         fontFamily: "Regular",
-        fontSize: 14,
+        fontSize: RFPercentage(2.1),
         textAlign: "justify",
         marginBottom: 25
     },
@@ -148,7 +151,7 @@ const Styles = StyleSheet.create ({
     },
 
     txtBotao: {
-        fontSize: 20,
+        fontSize: RFPercentage(3.2),
         color: "white",
         fontFamily: "Medium"
     }

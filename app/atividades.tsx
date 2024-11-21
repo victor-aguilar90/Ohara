@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import CaixaAtividade from "@/components/CaixaAtividade";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export default function Atividades() {
     const router = useRouter();
@@ -62,7 +63,7 @@ const Styles = StyleSheet.create ({
     },
 
     content: {
-        width: 310,
+        width: "85%",
         height: "95%",
         flexDirection: "column",
         alignItems: "center",
@@ -89,12 +90,12 @@ const Styles = StyleSheet.create ({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: 30
+        fontSize: RFPercentage(4.2)
     },
 
     rolarAtv:{
         padding: 5,
-        width: "80%",
+        width: "100%",
         alignItems: "center"
     },
 })

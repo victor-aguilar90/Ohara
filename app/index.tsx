@@ -1,6 +1,8 @@
 import { Text, View, TextInput, StyleSheet, Pressable, ActivityIndicator } from "react-native";
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+
 
 export default function Index() {
 
@@ -51,14 +53,14 @@ const Styles = StyleSheet.create ({
 
   titulo: {
     fontFamily: 'Medium',
-    fontSize: 40,
+    fontSize: RFPercentage(5.6),
     fontWeight: '500',
     marginBottom: 56,
   },
 
   label: {
     fontFamily:'Light',
-    fontSize: 20,
+    fontSize: RFPercentage(2.8),
     fontWeight:'400',
     marginBottom: 6,
   },
@@ -78,13 +80,13 @@ const Styles = StyleSheet.create ({
 
   botaoTexto: {
     fontFamily:'SemiBold',
-    fontSize: 21,
+    fontSize: RFPercentage(3),
     color: "white"
   },
 
   input: {
     fontFamily: 'Light',
-    fontSize: 16,
+    fontSize: RFPercentage(2.3),
     height: 44,
     borderBottomColor: "black",
     borderBottomWidth: 1,
@@ -94,11 +96,11 @@ const Styles = StyleSheet.create ({
   txt: {
     marginTop: 32,
     fontFamily:'Regular',
-    fontSize: 16,
+    fontSize: RFPercentage(2.3),
   },
 
   cadastro: {
-    fontSize: 16,
+    fontSize: RFPercentage(2.3),
     fontFamily:'Regular',
     color: '#0146F6',
   }
