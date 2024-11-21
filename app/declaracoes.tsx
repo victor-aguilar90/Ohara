@@ -35,7 +35,7 @@ export default function Declaracoes() {
   };
   const solicitarDeclaracao = async () => {
     try {
-      const response = await fetch('http://192.168.43.205:3000/solicitar-declaracao', {
+      const response = await fetch('http://192.168.86.205:3000/solicitar-declaracao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function Declaracoes() {
 
   const consultarDeclaracao = async () => {
     try {
-      const response = await fetch(`http://192.168.43.205:3000/consultar-declaracao/${protocolo}`);
+      const response = await fetch(`http://192.168.86.205:3000/consultar-declaracao/${protocolo}`);
       const data = await response.json();
       if (response.ok) {
         setStatus(data.status);  // Atribui o status retornado
@@ -190,7 +190,7 @@ const Styles = StyleSheet.create({
   txt: {
     textAlign: "center",
     fontFamily: "Regular",
-    fontSize: RFPercentage(2.4),
+    fontSize: RFPercentage(2.1),
     marginBottom: 10
   },
   picker: {
@@ -211,7 +211,8 @@ const Styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 5,
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(1.9),
+    alignItems:"center",
     fontFamily: "Light",
     marginBottom: 25,
   },
@@ -227,12 +228,12 @@ const Styles = StyleSheet.create({
   },
   botaoTexto: {
     fontFamily:'SemiBold',
-    fontSize: RFPercentage(2.7),
+    fontSize: RFPercentage(2.4),
     color: "white"
   },
   protocolos: {
     width: "80%",
-    height: 240,
+    height: 250,
     boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
     elevation: 5,
     backgroundColor: "white",
@@ -248,7 +249,7 @@ const Styles = StyleSheet.create({
     marginBottom: 5,
   },
   status: {
-    fontSize: RFPercentage(2.2),
+    fontSize: RFPercentage(2),
     fontFamily: "Regular",
     color: "green",
     marginTop: 10,
@@ -262,14 +263,14 @@ const Styles = StyleSheet.create({
   popup: {
     backgroundColor: "white",
     width: 300,
-    height: 200,
+    height: 350,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
     padding: 20,
   },
   txtPopup: {
-    fontSize: 18,
+    fontSize: RFPercentage(2),
     textAlign: "center",
     marginTop: 20,
     fontFamily: "Medium",

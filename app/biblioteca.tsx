@@ -202,7 +202,7 @@ const Styles = StyleSheet.create ({
 
     txtBotao: {
         fontFamily: "Regular",
-        fontSize: RFPercentage(2),
+        fontSize: RFPercentage(1.9),
         marginTop: 15
     },
 
@@ -214,7 +214,7 @@ const Styles = StyleSheet.create ({
 
     txtLivros: {
         fontFamily: "Medium",
-        fontSize: RFPercentage(3.9),
+        fontSize: RFPercentage(3.55),
         marginBottom: 5
     },
 

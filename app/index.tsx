@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Text, View, TextInput, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 export default function Index() {
   const [fontsLoaded] = useFonts({
@@ -22,7 +23,7 @@ export default function Index() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://192.168.43.205:3000/login', { // IP do servidor backend
+      const response = await fetch('http://192.168.86.205:3000/login', { // IP do servidor backend
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ const Styles = StyleSheet.create({
   },
   label: {
     fontFamily: 'Light',
-    fontSize: 20,
+    fontSize: RFPercentage(2.8),
     fontWeight: '400',
     marginBottom: 6,
   },
@@ -119,13 +120,13 @@ const Styles = StyleSheet.create({
   },
   botaoTexto: {
     fontFamily: 'SemiBold',
-    fontSize: 21,
+    fontSize: RFPercentage(2.4),
     color: 'white',
   },
   input: {
     fontFamily: 'Light',
-    fontSize: 16,
-    height: 44,
+    fontSize: RFPercentage(2.1),
+    height: 50,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     marginBottom: 31,
@@ -136,13 +137,13 @@ const Styles = StyleSheet.create({
     fontSize: 16,
   },
   cadastro: {
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     fontFamily: 'Regular',
     color: '#0146F6',
   },
   error: {
     color: 'red',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
     marginTop: 10,
   },
 });

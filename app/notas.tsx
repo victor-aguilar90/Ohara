@@ -3,6 +3,8 @@ import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 
 export default function Notas() {
+    const router = useRouter();
+
     const [fontsLoaded] = useFonts({
         'Regular': require('../assets/fonts/Poppins-Regular.ttf'),
         'SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
@@ -14,5 +16,10 @@ export default function Notas() {
     if (!fontsLoaded) {
         return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
     }
+
+    return (
+        <View>
+        </View>
+    );
     
 }

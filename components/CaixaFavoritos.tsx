@@ -46,12 +46,12 @@ const Styles = StyleSheet.create({
   },
   titulo: {
     fontFamily: "Medium", 
-    fontSize: RFPercentage(2.8), // Ajustei o tamanho da fonte para o título
+    fontSize: RFPercentage(2.35), // Ajustei o tamanho da fonte para o título
     marginBottom: 5, // Espaçamento abaixo do título
   },
   descricao: {
     fontFamily: "Light", 
-    fontSize: RFPercentage(2), // Ajustei o tamanho da fonte para a descrição
+    fontSize: RFPercentage(1.9), // Ajustei o tamanho da fonte para a descrição
   },
 });
 

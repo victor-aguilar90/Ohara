@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TouchableOpacity, useWindowDimensions, Image, StatusBar } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Pressable, Image, StatusBar } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBell, faChartColumn, faBookOpen, faClipboard, faBookAtlas  } from '@fortawesome/free-solid-svg-icons';
 import { useFonts } from 'expo-font';
@@ -36,7 +36,9 @@ export default function Principal() {
                         <Text style = {Styles.diaMes}>{dataDia}</Text>
                         <Text style = {Styles.txt}>Olá, Victor!</Text>
                     </View>
-                    <FontAwesomeIcon icon={faBell} size={36} />
+                    <Pressable onPress={() => router.push("/noticacoes")}>
+                        <FontAwesomeIcon icon={faBell} size={36} />
+                    </Pressable>
                 </View>
                 <View style = {Styles.caixa}>
                     <Image style = {Styles.imgAluno} source={{uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwr_zZjgvmu4BccwDNIHic8K5dyehw7cSYA&s"}}></Image>
@@ -48,7 +50,7 @@ export default function Principal() {
                 <View style = {Styles.caixaBotoes}>
                     <TouchableOpacity style = {Styles.botoes} >
                         <FontAwesomeIcon icon={faChartColumn} size={40}/>
-                        <Text style = {Styles.botoesTxt}>Gráfico do Aluno</Text>
+                        <Text style = {Styles.botoesTxt}>Notas e Faltas</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style = {Styles.botoes} onPress={() => router.push('/declaracoes')} >
                         <FontAwesomeIcon icon={faClipboard} size={40}/>
@@ -88,7 +90,7 @@ const Styles = StyleSheet.create ({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: 40
+        marginBottom: 35
     },
     titulo: {
         width: 148,
@@ -122,12 +124,12 @@ const Styles = StyleSheet.create ({
     labels: {
         width: 243,
         fontFamily: "Regular",
-        fontSize: RFPercentage(2.1)
+        fontSize: RFPercentage(2)
     },
     dados: {
         width: 243,
         fontFamily: "Light",
-        fontSize: RFPercentage(2),
+        fontSize: RFPercentage(1.95),
         marginBottom: 15
     },
     caixaBotoes: {
@@ -151,7 +153,7 @@ const Styles = StyleSheet.create ({
     botoesTxt: {
         width: 95,
         textAlign: "center",
-        fontSize: RFPercentage(2.2),
+        fontSize: RFPercentage(1.9),
         fontFamily: "Light",
         marginTop: 10
     }

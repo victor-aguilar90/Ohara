@@ -99,19 +99,19 @@ const Styles = StyleSheet.create ({
         width: "80%",
         textAlign: "center",
         fontFamily: "Medium",
-        fontSize: RFPercentage(3.7)
+        fontSize: RFPercentage(3.4)
     },
 
     autorLivro: {
         fontFamily: "Light",
-        fontSize: RFPercentage(2.1),
+        fontSize: RFPercentage(2),
         marginBottom:15
     },
 
     descricao: {
         width: "80%",
         fontFamily: "Regular",
-        fontSize: RFPercentage(2.1),
+        fontSize: RFPercentage(2),
         textAlign: "justify",
         marginBottom: 25
     },
