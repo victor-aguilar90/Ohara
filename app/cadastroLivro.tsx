@@ -1,15 +1,26 @@
-import { Text, View, TextInput, StyleSheet, Modal, Pressable } from "react-native";
+import { Text, View, TextInput, StyleSheet, Modal, Pressable, Button } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck} from '@fortawesome/free-solid-svg-icons';
 import { useFonts } from 'expo-font';
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
 
 export default function CadastroLivro () {
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [imageUri, setImageUri] = useState(null);
+
+    const pickImage = async () => {
+    // Solicitar permissões para acessar a galeria
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Permissão para acessar a galeria foi negada!');
+      return;
+    }
 
     const [fontsLoaded] = useFonts({
         'Regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -46,6 +57,9 @@ export default function CadastroLivro () {
                 <TextInput style = {Styles.inp} placeholder="Digite uma pequena descrição"/>
                 <Text style = {Styles.label}>Quantidade Dísponivel:</Text>
                 <TextInput style = {Styles.inp} placeholder="Digite o título"/>
+                <Text style = {Styles.label}>Anexar Imagem:</Text>
+                <Button title="Selecionar Imagem" onPress={pickImage} />
+
                 <Pressable style={Styles.botao} onPress={mostrarPopupTempo}>
                     <Text style={Styles.botaoTexto}>CADASTRAR</Text>
                 </Pressable>
