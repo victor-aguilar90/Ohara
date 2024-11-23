@@ -13,28 +13,55 @@ Certifique-se de ter os seguintes itens instalados no seu computador:
 
 ## Passo a Passo para Configuração
 
-1. **Clonar o Repositório**
+### 1. **Clonar o Repositório**
 
-   Caso ainda não tenha o código, clone o repositório do servidor:
+Caso ainda não tenha o código, clone o repositório do servidor:
 
-   ```bash
-   git clone https://url-do-seu-repositorio.git
-   cd nome-do-diretorio
+```bash
+git clone https://url-do-seu-repositorio.git
+cd nome-do-diretorio
+```
 
-2. **Baixar pacotes**
-Aí vc dá um _npm install_ (mas talvez alguns pacotes precisem ser instalados via terminal manualmente, mas ele vai dar erro nos pacotes que faltas)
+### 2. **Baixar pacotes**
 
-3. **ip**
-nas partes de alguns arquivos que já tem a api rodando como no index, vc vai achar um const response = await fetch('http://192.168.43.205:3000/login', { // IP do servidor backend
-vc precisa trocar a parte do ip _192.168.43.205_ pelo ip da SUA MAQUINA.
+Instale as dependências com o comando:
 
-4**arquivo .db**
+```bash
+npm install
+```
 
-voce tambem vai achar no arquivo server esta linha _const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRITE, (err) => {_
+> **Nota:** Alguns pacotes podem precisar ser instalados manualmente. Se houver erros de pacotes ausentes, instale-os diretamente pelo terminal.
 
-ela é responsavel por fazer o link com o banco, vou subir o arquivo .db ee vc altera essa rota de pastas para o local onde esta o arquivo no SEU PC.
+### 3. **Configurar o IP**
 
-e para rodar o servidor dê um **npx ts-node server.ts** dentro da pasta serve
+Em alguns arquivos da API, como no arquivo `index.js`, você encontrará uma linha semelhante a esta:
 
+```js
+const response = await fetch('http://192.168.43.205:3000/login', { // IP do servidor backend
+```
 
-  
+Substitua o IP **192.168.43.205** pelo IP da sua máquina local. Para encontrar o seu IP, você pode executar o comando:
+
+```bash
+ip a
+```
+
+### 4. **Configurar o Banco de Dados**
+
+No arquivo `server.js`, você encontrará a linha abaixo, que define o caminho para o banco de dados SQLite:
+
+```js
+const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRITE, (err) => {
+```
+
+Altere o caminho do arquivo `.db` para o local onde o banco de dados está salvo em sua máquina. Você pode obter o arquivo `.db` e colocar no diretório adequado. Caso precise, altere a rota de pastas conforme o seu sistema.
+
+### 5. **Rodar o Servidor**
+
+Para rodar o servidor, execute o seguinte comando dentro da pasta do projeto:
+
+```bash
+npx ts-node server.ts
+```
+
+O servidor agora estará rodando localmente. Você poderá acessar os endpoints da API conforme necessário.
