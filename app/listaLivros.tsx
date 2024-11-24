@@ -135,7 +135,15 @@ export default function ListaLivros() {
                             <Image source={{uri: livroSelecionado.imagem}} style={Styles.modalImagem}/>
                             <Text style={Styles.modalAutor}>Autor: {livroSelecionado.autor}</Text>
                             <Text style={Styles.modalDescricao}>{livroSelecionado.descricao}</Text>
-                            <Pressable style={Styles.modalEditar}>
+                            <Pressable style={Styles.modalEditar} onPress={() => router.push({
+                                pathname: '/editarLivro',
+                                params: {
+                                    titulo: livroSelecionado.titulo,
+                                    imagem: livroSelecionado.imagem,
+                                    autor: livroSelecionado.autor,
+                                    descricao: livroSelecionado.descricao,
+                                }
+                            })}>
                                 <Text style={Styles.modalEditarTexto}>Editar</Text>
                             </Pressable>
                             <Pressable style={Styles.modalExcluir}>
