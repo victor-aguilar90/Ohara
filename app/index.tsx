@@ -23,7 +23,7 @@ export default function Index() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://192.168.86.205:3000/login', { // IP do servidor backend
+      const response = await fetch('http://:3000/login', { // IP do servidor backend
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const Styles = StyleSheet.create({
   },
   botaoTexto: {
     fontFamily: 'SemiBold',
-    fontSize: RFPercentage(2.4),
+    fontSize: RFPercentage(2.2),
     color: 'white',
   },
   input: {

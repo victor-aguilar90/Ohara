@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
-const CaixaAtividade = ({ materia, descricao }) => (
+const CaixaAtividade = ({ materia, descricao, popup }) => (
   <View style={Styles.caixa}>
     <View style={Styles.txt}>
       <Text style={Styles.materia}>{materia}</Text>
       <Text style={Styles.descricao}>{descricao}</Text>
     </View>
-    <TouchableOpacity style={Styles.enviarAtv}>
+    <TouchableOpacity style={Styles.enviarAtv} onPress={popup}>
       <FontAwesomeIcon icon={faPaperPlane} size={25} color={"white"} />
     </TouchableOpacity>
   </View>
@@ -18,7 +18,7 @@ const CaixaAtividade = ({ materia, descricao }) => (
 const Styles = StyleSheet.create({
   caixa: {
     width: "100%",
-    height: 160,
+    height: 140,
     backgroundColor: "white",
     boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.35)',
     elevation: 5,

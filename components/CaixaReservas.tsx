@@ -7,12 +7,13 @@ interface CaixaFavoritosProps {
     descricao: string;
   }
 
-const CaixaFavoritos = ({ urlImagem, titulo, descricao }) => (
+const CaixaReservas = ({ urlImagem, titulo, descricao, dataDevolucao }) => (
   <View style={Styles.caixa}>
     <Image source={{ uri: urlImagem }} style={Styles.imagem} />
     <View style={Styles.caixaTxt}>
       <Text style={Styles.titulo}>{titulo}</Text>
       <Text style={Styles.descricao}>{descricao}</Text>
+      <Text style={Styles.dataDev}>Devolução em: {dataDevolucao}</Text>
     </View>
   </View>
 );
@@ -53,6 +54,11 @@ const Styles = StyleSheet.create({
     fontFamily: "Light", 
     fontSize: RFPercentage(1.9), // Ajustei o tamanho da fonte para a descrição
   },
+  dataDev: {
+    marginTop: 5,
+    fontFamily:"Regular",
+    fontSize:RFPercentage(1.4)
+  }
 });
 
-export default CaixaFavoritos;
+export default CaixaReservas;

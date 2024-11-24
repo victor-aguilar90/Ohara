@@ -36,7 +36,7 @@ export default function Principal() {
                         <Text style = {Styles.diaMes}>{dataDia}</Text>
                         <Text style = {Styles.txt}>Olá, Victor!</Text>
                     </View>
-                    <Pressable onPress={() => router.push("/noticacoes")}>
+                    <Pressable onPress={() => router.push("/")}>
                         <FontAwesomeIcon icon={faBell} size={36} />
                     </Pressable>
                 </View>

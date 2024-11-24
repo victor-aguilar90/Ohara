@@ -34,11 +34,8 @@ export default function Bibliotecario() {
                 <View style = {Styles.topo}>
                     <View style = {Styles.titulo}>
                         <Text style = {Styles.diaMes}>{dataDia}</Text>
-                        <Text style = {Styles.txt}>Olá, Victor!</Text>
+                        <Text style = {Styles.txt}>Olá, Roberto!</Text>
                     </View>
-                    <Pressable onPress={() => router.push("/noticacoes")}>
-                        <FontAwesomeIcon icon={faBell} size={36} />
-                    </Pressable>
                 </View>
                 <View style = {Styles.caixa}>
                     <Image style = {Styles.imgAluno} source={{uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwr_zZjgvmu4BccwDNIHic8K5dyehw7cSYA&s"}}></Image>
@@ -52,9 +49,9 @@ export default function Bibliotecario() {
                         <FontAwesomeIcon icon={faBook} size={40} />
                         <Text style = {Styles.botoesTxt}>Cadastrar Livros</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {Styles.botoes} onPress={() => router.push('/declaracoes')} >
+                    <TouchableOpacity style = {Styles.botoes} >
                         <FontAwesomeIcon icon={faClipboard} size={40}/>
-                        <Text style = {Styles.botoesTxt}>Declarações</Text>
+                        <Text style = {Styles.botoesTxt}>Remover Livros</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -145,7 +142,7 @@ const Styles = StyleSheet.create ({
     botoesTxt: {
         width: 95,
         textAlign: "center",
-        fontSize: RFPercentage(2.15),
+        fontSize: RFPercentage(2),
         fontFamily: "Light",
         marginTop: 10
     }
