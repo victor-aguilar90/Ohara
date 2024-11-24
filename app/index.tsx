@@ -23,10 +23,10 @@ export default function Index() {
   const handleLogin = async () => {
     setLoading(true);
     setError('');
-    console.log('Iniciando o processo de login'); // Log de início
+    console.log('Iniciando o processo de login');
   
     try {
-      console.log('Enviando requisição ao servidor com:', { username, password }); // Log da requisição
+      console.log('Enviando requisição ao servidor com:', { username, password });
       const response = await fetch('http://192.168.10.181:3000/login', {
         method: 'POST',
         headers: {
@@ -35,31 +35,28 @@ export default function Index() {
         body: JSON.stringify({ username, password }),
       });
   
-      console.log('Resposta recebida do servidor:', response); // Log da resposta
-  
-      // Verificando se a resposta é bem-sucedida
+      console.log('Resposta recebida do servidor:', response);
       const data = await response.json();
-      console.log('Dados retornados do servidor:', data); // Log dos dados retornados
+      console.log('Dados retornados do servidor:', data);
   
       if (response.ok) {
         if (data.token) {
-          console.log('Login bem-sucedido, armazenando token no AsyncStorage'); // Log do sucesso
+          console.log('Login bem-sucedido, armazenando token no AsyncStorage');
           await AsyncStorage.setItem('userToken', data.token);
+          console.log('Armazenando aluno:', data.aluno); // Log para conferir os dados
           await AsyncStorage.setItem('aluno', JSON.stringify(data.aluno));
+          
           router.push('/principal');
         } else {
-          console.warn('Token não retornado pelo servidor'); // Log do problema de token
           setError('Token inválido ou não encontrado');
         }
       } else {
-        console.error('Erro retornado pelo servidor:', data.message); // Log de erro do servidor
         setError(data.message || 'Erro ao tentar fazer login');
       }
     } catch (err) {
-      console.error('Erro no bloco catch durante o login:', err); // Log de erro inesperado
+      console.error('Erro no bloco catch durante o login:', err);
       setError('Erro ao tentar fazer login');
     } finally {
-      console.log('Finalizando o processo de login'); // Log final
       setLoading(false);
     }
   };

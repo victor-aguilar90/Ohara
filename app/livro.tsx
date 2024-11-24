@@ -1,3 +1,4 @@
+/*
 import { Text, View, TextInput, StyleSheet, Pressable, Image, FlatList, ScrollView} from "react-native";
 import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
@@ -156,3 +157,5 @@ const Styles = StyleSheet.create ({
         fontFamily: "Medium"
     }
 })
+
+*/

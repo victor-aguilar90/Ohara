@@ -5,7 +5,7 @@ import { faArrowLeft, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function Declaracoes() {
   const [selectedValue, setSelectedValue] = useState('declaracao1');
@@ -33,6 +33,7 @@ export default function Declaracoes() {
       setModalVisible(false);
     }, 2500);
   };
+
   const solicitarDeclaracao = async () => {
     try {
       const response = await fetch('http://192.168.43.205:3000/solicitar-declaracao', {
@@ -45,20 +46,19 @@ export default function Declaracoes() {
           motivo: motivo,
         }),
       });
-  
+
       const data = await response.json();
       if (response.ok) {
         setProtocolo(data.protocolo); // Armazena o protocolo retornado
         mostrarPopupTempo(); // Exibe o popup com sucesso
       } else {
-        alert('Erro ao solicitar declaração: ' + data.message);
+        alert('Erro ao solicitar declaração: ' + (data.message || 'Tente novamente.'));
       }
     } catch (error) {
       console.error('Erro ao fazer solicitação:', error);
-      alert('Erro ao fazer solicitação');
+      alert('Erro ao fazer solicitação: ' + error.message);
     }
   };
-  ;
 
   const consultarDeclaracao = async () => {
     try {
@@ -123,22 +123,22 @@ export default function Declaracoes() {
       </View>
 
       <Modal
-  animationType="fade"
-  transparent={true}
-  visible={modalVisible}
-  onRequestClose={() => setModalVisible(false)}>
-  <View style={Styles.fundo}>
-    <View style={Styles.popup}>
-      <FontAwesomeIcon icon={faCircleCheck} size={45} color="green" />
-      <Text style={Styles.txtPopup}>Solicitação feita com sucesso!</Text>
-      {protocolo ? (
-        <Text style={Styles.txtPopup}>Protocolo: {protocolo}</Text>  // Exibe o número do protocolo
-      ) : (
-        <Text style={Styles.txtPopup}>Aguarde enquanto geramos o protocolo...</Text>
-      )}
-    </View>
-  </View>
-</Modal>
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={Styles.fundo}>
+          <View style={Styles.popup}>
+            <FontAwesomeIcon icon={faCircleCheck} size={45} color="green" />
+            <Text style={Styles.txtPopup}>Solicitação feita com sucesso!</Text>
+            {protocolo ? (
+              <Text style={Styles.txtPopup}>Protocolo: {protocolo}</Text>  // Exibe o número do protocolo
+            ) : (
+              <Text style={Styles.txtPopup}>Aguarde enquanto geramos o protocolo...</Text>
+            )}
+          </View>
+        </View>
+      </Modal>
 
     </View>
   );
@@ -234,45 +234,50 @@ const Styles = StyleSheet.create({
   protocolos: {
     width: "80%",
     height: 250,
-    boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
-    elevation: 5,
     backgroundColor: "white",
-    borderRadius:10,
+    marginTop: 20,
+    borderRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "center"
+    flexDirection: "column",
   },
   txtP: {
-    width: "80%",
-    fontSize: RFPercentage(2.2),
-    fontFamily: "Regular",
-    textAlign: "left",
-    marginBottom: 5,
+    textAlign: "center",
+    fontFamily: "Light",
+    fontSize: RFPercentage(2.1),
+    marginBottom: 15
   },
   status: {
-    fontSize: RFPercentage(2),
-    fontFamily: "Regular",
-    color: "green",
-    marginTop: 10,
+    fontFamily: "Light",
+    fontSize: RFPercentage(2.0),
+    marginTop: 20
   },
   fundo: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   popup: {
-    backgroundColor: "white",
-    width: 300,
-    height: 3010,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 15,
+    width: 300,
+    height: 200,
+    backgroundColor: "white",
+    borderRadius: 10,
     padding: 20,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   txtPopup: {
-    fontSize: RFPercentage(2),
     textAlign: "center",
-    marginTop: 20,
-    fontFamily: "Medium",
-  },
+    fontFamily: "SemiBold",
+    fontSize: RFPercentage(2.3),
+  }
 });

@@ -145,17 +145,23 @@ function enviarEmailConfirmacao(motivo: string, protocolo: string, email: string
 }
 
 // Rota para solicitar a declaração
-app.post('/solicitar-declaracao', (req: Request, res: Response): void => {
+
+app.post('/solicitar-declaracao', verifyToken, (req: Request, res: Response): void => {
   const { motivo, email } = req.body;
   const protocolo = 'PROTOCOLO-' + Math.floor(Math.random() * 1000000); // Gerando protocolo único
   const status = 'Em processamento'; // Status inicial
+
+  // Obtenção do RM do aluno a partir do token JWT
+  const rmAluno = req.body.user.rm;
 
   db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='declaracoes'", (err, table) => {
     if (err) {
       return res.status(500).json({ message: 'Erro ao verificar tabela', error: err.message });
     }
 
-    db.run("INSERT INTO declaracoes (protocolo, motivo, status) VALUES (?, ?, ?)", [protocolo, motivo, status], function(err) {
+    // Inserir a solicitação de declaração com RM e protocolo
+    db.run("INSERT INTO declaracoes (protocolo, motivo, status, rm_aluno) VALUES (?, ?, ?, ?)", 
+    [protocolo, motivo, status, rmAluno], function(err) {
       if (err) {
         return res.status(500).json({ message: 'Erro ao registrar declaração', error: err.message });
       }
@@ -166,6 +172,7 @@ app.post('/solicitar-declaracao', (req: Request, res: Response): void => {
     });
   });
 });
+
 
 // Interface de Declaração
 interface Declaracao {
@@ -277,9 +284,24 @@ app.listen(port, () => {
 });
 
 // Rota para obter os dados do aluno logado
+// Rota para obter os dados do aluno logado
 app.get('/me', verifyToken, (req: Request, res: Response) => {
-  res.status(200).json(req.body.user);
+  const userId = req.body.user.id; // ID do usuário logado
+
+  db.get("SELECT * FROM alunos WHERE id = ?", [userId], (err, row: Aluno) => {
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao buscar dados do aluno', error: err.message });
+    }
+
+    if (!row) {
+      return res.status(404).json({ message: 'Aluno não encontrado' });
+    }
+
+    // Envia os dados do aluno logado
+    res.status(200).json(row);
+  });
 });
+
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`Recebendo requisição para: ${req.method} ${req.url}`);
