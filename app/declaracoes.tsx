@@ -35,7 +35,7 @@ export default function Declaracoes() {
   };
   const solicitarDeclaracao = async () => {
     try {
-      const response = await fetch('http://192.168.86.205:3000/solicitar-declaracao', {
+      const response = await fetch('http://192.168.43.205:3000/solicitar-declaracao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function Declaracoes() {
 
   const consultarDeclaracao = async () => {
     try {
-      const response = await fetch(`http://192.168.86.205:3000/consultar-declaracao/${protocolo}`);
+      const response = await fetch(`http://192.168.43.205:3000/consultar-declaracao/${protocolo}`);
       const data = await response.json();
       if (response.ok) {
         setStatus(data.status);  // Atribui o status retornado
@@ -91,7 +91,7 @@ export default function Declaracoes() {
           onValueChange={(itemValue) => setSelectedValue(itemValue)}
           style={Styles.picker}
         >
-          <Picker.Item style={Styles.pickerTxt} label="Declaração 1" value="Decla" />
+          <Picker.Item style={Styles.pickerTxt} label="Declaração de matricula" value="Decla" />
         </Picker>
         <Text style={Styles.txt}>Motivo da solicitação</Text>
         <TextInput
@@ -263,7 +263,7 @@ const Styles = StyleSheet.create({
   popup: {
     backgroundColor: "white",
     width: 300,
-    height: 350,
+    height: 3010,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,

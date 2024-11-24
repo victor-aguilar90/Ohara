@@ -88,7 +88,7 @@ export default function Biblioteca() {
             />
         </View>
         <View style = {Styles.areaScroll}>
-            <Text style = {Styles.txtLivros}>Dramas</Text>
+            <Text style = {Styles.txtLivros}>Drama</Text>
             <FlatList
                 data={filmes}
                 renderItem={({ item }) => (

@@ -1,4 +1,5 @@
-import { Text, View, TextInput, StyleSheet, Modal, Pressable } from "react-native";
+/*
+import { Text, View, TextInput, StyleSheet, Modal, Pressable, Button } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck, faPaperclip} from '@fortawesome/free-solid-svg-icons';
 import { useFonts } from 'expo-font';
@@ -220,3 +221,4 @@ const Styles = StyleSheet.create ({
 
     
 });
+*/

@@ -1,15 +1,24 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import sqlite3 from 'sqlite3';
 import bcrypt from 'bcrypt';
 import cors from 'cors';
 import emailjs from 'emailjs-com';  // Importando o emailjs
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
+dotenv.config(); // Carrega as variáveis de ambiente
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
 const app = express();
 const port = 3000;
 
 // Usando o middleware CORS
-app.use(cors());
+app.use(cors({
+  origin: ['http://192.168.10.181:3000', 'http://localhost:3000']  // Altere conforme sua configuração
+}
+));
 app.use(express.json());
+
 
 // Conectar ao banco de dados SQLite
 const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -50,6 +59,7 @@ interface Aluno {
   cod_etec: number;
   senha: string;
   rm: number;
+  token?: string;
 }
 
 // Função de login
@@ -70,9 +80,16 @@ function login(username: string, password: string, callback: (error: Error | nul
         callback(err);
         return;
       }
+      console.log('Resultado da comparação de senha: ', result); 
 
       if (result) {
-        callback(null, user);
+        // Gerando o token JWT
+        const token = jwt.sign({ id: user.id, rm: user.rm }, JWT_SECRET, { expiresIn: '1h' });
+        console.log('Token gerado: ', token); // Isso ajudará a identificar se o token é gerado corretamente.
+              
+
+        // Retornando o token no lugar dos dados do usuário
+        callback(null, { ...user, token });
       } else {
         callback(null, null);
       }
@@ -81,22 +98,33 @@ function login(username: string, password: string, callback: (error: Error | nul
 }
 
 // Rota de login
-app.post('/login', (req: Request, res: Response) => {
+app.post('/login', (req: Request, res: Response): void => {
   const { username, password } = req.body;
+  
+  console.log('Tentando fazer login com RM:', username);  // Log do username
 
   login(username, password, (error, user) => {
     if (error) {
+      console.error('Erro ao fazer login:', error.message);
       return res.status(500).json({ message: 'Erro ao fazer login', error: error.message });
     }
 
     if (user) {
-      // Aqui estamos armazenando os dados do aluno no backend (simplificado)
-      res.status(200).json({ message: 'Login bem-sucedido!', user });
+      console.log('Login bem-sucedido para o aluno:', user.rm);
+      const { senha, ...userData } = user;  // Remover a senha do objeto
+      res.status(200).json({
+        message: 'Login bem-sucedido!',
+        token: user.token,
+        aluno: userData,  // Retorna os dados do aluno
+      });
     } else {
+      console.log('Credenciais inválidas para RM:', username);
       res.status(401).json({ message: 'Credenciais inválidas!' });
     }
   });
 });
+
+
 
 // Função para enviar e-mail via EmailJS
 function enviarEmailConfirmacao(motivo: string, protocolo: string, email: string) {
@@ -117,7 +145,7 @@ function enviarEmailConfirmacao(motivo: string, protocolo: string, email: string
 }
 
 // Rota para solicitar a declaração
-app.post('/solicitar-declaracao', (req: Request, res: Response) => {
+app.post('/solicitar-declaracao', (req: Request, res: Response): void => {
   const { motivo, email } = req.body;
   const protocolo = 'PROTOCOLO-' + Math.floor(Math.random() * 1000000); // Gerando protocolo único
   const status = 'Em processamento'; // Status inicial
@@ -145,7 +173,7 @@ interface Declaracao {
 }
 
 // Rota para consultar a declaração pelo protocolo
-app.get('/consultar-declaracao/:protocolo', (req: Request, res: Response) => {
+app.get('/consultar-declaracao/:protocolo', (req: Request, res: Response): void => {
   const { protocolo } = req.params;
 
   db.get("SELECT status FROM declaracoes WHERE protocolo = ?", [protocolo], (err, row: Declaracao) => {
@@ -162,7 +190,7 @@ app.get('/consultar-declaracao/:protocolo', (req: Request, res: Response) => {
 });
 
 // Rota para atualizar o status de uma declaração
-app.put('/atualizar-status/:protocolo', (req: Request, res: Response) => {
+app.put('/atualizar-status/:protocolo', (req: Request, res: Response): void => {
   const { protocolo } = req.params;
   const { status } = req.body;
 
@@ -179,7 +207,86 @@ app.put('/atualizar-status/:protocolo', (req: Request, res: Response) => {
   });
 });
 
+// Middleware para verificar o token JWT
+function verifyToken(req: Request, res: Response, next: NextFunction): void {
+  const token = req.headers['authorization']?.split(' ')[1]; // Extrair o token do header
+
+  if (!token) {
+    console.log('Token não fornecido');
+    res.status(403).json({ message: 'Token não fornecido!' });
+    return;  // Aqui você pode retornar para interromper a execução da função
+  }
+
+  console.log('Verificando o token:', token);  // Log do token que está sendo verificado
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.log('Token inválido:', err.message);  // Log do erro de token inválido
+      res.status(403).json({ message: 'Token inválido!' });
+      return;  // Retorna para interromper a execução
+    }
+
+    console.log('Token decodificado com sucesso:', decoded);  // Log de sucesso na decodificação do token
+
+    req.body.user = decoded; // Armazenar os dados do usuário decodificado
+    next(); // Chama o próximo middleware ou a rota
+  });
+}
+
+
+app.get('/aluno/:id', verifyToken, (req: Request, res: Response): void => {
+  const { id } = req.params;  // ID passado na URL
+  const userId = req.body.user.id;  // ID do usuário decodificado do token
+
+  console.log(`Verificando permissão para o usuário com ID: ${userId} acessar dados do aluno com ID: ${id}`);
+
+  // Verificação de permissão
+  if (parseInt(id) !== userId) {
+    console.log(`Acesso negado: Usuário com ID ${userId} tentando acessar dados de outro aluno`);
+    // Troca a resposta por um console.log
+    console.log({ message: 'Acesso negado! Você não pode acessar esses dados.' });
+    return;  // Aqui não há necessidade de retornar nada explicitamente
+  }
+
+  // Consultando o aluno no banco de dados
+  db.get("SELECT * FROM alunos WHERE id = ?", [id], (err, row: Aluno) => {
+    if (err) {
+      console.log('Erro ao buscar aluno:', err.message);
+      res.status(500).json({ message: 'Erro ao buscar aluno', error: err.message });
+      return;
+    }
+
+    if (!row) {
+      console.log('Aluno não encontrado');
+      res.status(404).json({ message: 'Aluno não encontrado' });
+      return;
+    }
+
+    console.log('Aluno encontrado:', row);
+    // Enviando resposta com os dados do aluno
+    res.status(200).json(row);
+  });
+});
+
+
+
+
 // Iniciar o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
+});
+
+// Rota para obter os dados do aluno logado
+app.get('/me', verifyToken, (req: Request, res: Response) => {
+  res.status(200).json(req.body.user);
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`Recebendo requisição para: ${req.method} ${req.url}`);
+  next();
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log('Configurando CORS para a origem:', req.headers.origin);
+  next();
 });
