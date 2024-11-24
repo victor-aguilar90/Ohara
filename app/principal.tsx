@@ -30,7 +30,7 @@ export default function Principal() {
       const storedToken = await AsyncStorage.getItem('userToken');
       if (!storedToken) {
         // Se não houver token, redireciona para o login
-        router.replace('/login');
+        
       }
     };
 
@@ -103,7 +103,7 @@ export default function Principal() {
               </View>
 
               <View style={Styles.caixaBotoes}>
-                <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/grafico')}>
+                <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/notas')}>
                   <FontAwesomeIcon icon={faChartColumn} size={40} />
                   <Text style={Styles.botoesTxt}>Gráfico do Aluno</Text>
                 </TouchableOpacity>

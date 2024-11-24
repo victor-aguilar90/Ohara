@@ -14,7 +14,7 @@ const port = 3000;
 
 // Usando o middleware CORS
 app.use(cors({
-  origin: ['http://192.168.10.181:3000', 'http://localhost:3000']  // Altere conforme sua configuração
+  origin: ['http://192.168.10.181:3000', 'http://localhost:3000', '*']  // Altere conforme sua configuração
 }
 ));
 app.use(express.json());
@@ -147,30 +147,32 @@ function enviarEmailConfirmacao(motivo: string, protocolo: string, email: string
 // Rota para solicitar a declaração
 
 app.post('/solicitar-declaracao', verifyToken, (req: Request, res: Response): void => {
-  const { motivo, email } = req.body;
-  const protocolo = 'PROTOCOLO-' + Math.floor(Math.random() * 1000000); // Gerando protocolo único
-  const status = 'Em processamento'; // Status inicial
+  const { motivo } = req.body; // Recebe o motivo da solicitação
+  const protocolo = 'PROTOCOLO-' + Math.floor(Math.random() * 1000000); // Gera um protocolo único
+  const status = 'Em processamento'; // Status inicial da solicitação
 
-  // Obtenção do RM do aluno a partir do token JWT
-  const rmAluno = req.body.user.rm;
+  const rmAluno = req.body.user.rm; // Recupera o RM do aluno autenticado via JWT
 
-  db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='declaracoes'", (err, table) => {
-    if (err) {
-      return res.status(500).json({ message: 'Erro ao verificar tabela', error: err.message });
-    }
+  console.log(`Aluno com RM ${rmAluno} solicitando declaração com protocolo ${protocolo}`);
 
-    // Inserir a solicitação de declaração com RM e protocolo
-    db.run("INSERT INTO declaracoes (protocolo, motivo, status, rm_aluno) VALUES (?, ?, ?, ?)", 
-    [protocolo, motivo, status, rmAluno], function(err) {
+  // Inserir a solicitação de declaração no banco de dados
+  db.run(
+    "INSERT INTO declaracoes (protocolo, motivo, status, rm_aluno) VALUES (?, ?, ?, ?)", 
+    [protocolo, motivo, status, rmAluno], 
+    function(err) {
       if (err) {
+        console.error('Erro ao registrar declaração:', err.message);
         return res.status(500).json({ message: 'Erro ao registrar declaração', error: err.message });
       }
-      res.status(200).json({ message: 'Declaração solicitada com sucesso', protocolo });
 
-      // Enviar e-mail após a solicitação de declaração
-      enviarEmailConfirmacao(motivo, protocolo, email);
-    });
-  });
+      console.log('Declaração registrada com sucesso');
+      res.status(200).json({ 
+        message: 'Declaração solicitada com sucesso', 
+        protocolo, 
+        status 
+      });
+    }
+  );
 });
 
 
@@ -180,20 +182,24 @@ interface Declaracao {
 }
 
 // Rota para consultar a declaração pelo protocolo
-app.get('/consultar-declaracao/:protocolo', (req: Request, res: Response): void => {
-  const { protocolo } = req.params;
+app.get('/minhas-declaracoes', verifyToken, (req: Request, res: Response): void => {
+  const rmAluno = req.body.user.rm; // RM do aluno autenticado
 
-  db.get("SELECT status FROM declaracoes WHERE protocolo = ?", [protocolo], (err, row: Declaracao) => {
-    if (err) {
-      return res.status(500).json({ message: 'Erro ao consultar declaração', error: err.message });
+  db.all(
+    "SELECT protocolo, motivo, status FROM declaracoes WHERE rm_aluno = ?", 
+    [rmAluno], 
+    (err, rows) => {
+      if (err) {
+        console.error('Erro ao buscar declarações:', err.message);
+        return res.status(500).json({ message: 'Erro ao buscar declarações', error: err.message });
+      }
+
+      res.status(200).json({
+        message: 'Declarações recuperadas com sucesso',
+        declaracoes: rows
+      });
     }
-
-    if (!row) {
-      return res.status(404).json({ message: 'Declaração não encontrada' });
-    }
-
-    res.status(200).json({ status: row.status });
-  });
+  );
 });
 
 // Rota para atualizar o status de uma declaração

@@ -11,19 +11,19 @@ const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRIT
 
 // Dados do novo aluno
 const novoAluno = {
-  nome: 'João Silva',
-  data_nascimento: '2005-05-15',
-  endereco: 'Rua Exemplo, 123',
-  telefone: '11999999999',
-  email: 'joao.silva@example.com',
-  data_matricula: '2024-11-21',
-  nome_responsavel: 'Maria Silva',
-  contato_responsavel: '11988888888',
+  nome: 'Maria Oliveira',
+  data_nascimento: '2004-06-10',
+  endereco: 'Rua dos Estudantes, 100',
+  telefone: '11987654321',
+  email: 'maria.oliveira@example.com',
+  data_matricula: '2024-11-22',
+  nome_responsavel: 'João Oliveira',
+  contato_responsavel: '11987654321',
   status_estudante: 'Ativo',
-  turmas: 'Turma A',
-  cod_etec: 1234,
-  senha: 'senha123', // Senha em texto puro
-  rm: 12345,
+  turmas: 'Turma B',
+  cod_etec: 5678,
+  senha: 'senha9876', // Senha em texto puro
+  rm: 654321,
 };
 
 // Gerar o hash da senha
