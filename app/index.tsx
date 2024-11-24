@@ -152,7 +152,7 @@ const Styles = StyleSheet.create({
   },
   botaoTexto: {
     fontFamily: 'SemiBold',
-    fontSize: RFPercentage(2.4),
+    fontSize: RFPercentage(2.2),
     color: 'white',
   },
   input: {

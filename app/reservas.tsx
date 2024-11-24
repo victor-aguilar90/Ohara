@@ -3,11 +3,11 @@ import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter} from 'expo-router';
-import CaixaFavoritos from '@/components/CaixaFavoritos';
+import CaixaReservas from '@/components/CaixaReservas';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 
-export default function Favoritos() {
+export default function Reservas() {
 
     const [fontsLoaded] = useFonts({
     'Regular': require('../assets/fonts/Poppins-Regular.ttf'),
@@ -25,25 +25,26 @@ export default function Favoritos() {
   
   const router = useRouter();
 
-  const favoritos = [
+  const reservas = [
     {
         urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg',
         titulo: 'Mestres do Tempo',
         descricao: 'Uma aventura épica no controle do tempo.',
+        dataDevolucao: '2024-12-10', // Exemplo de data
     },
     {
-        urlImagem: 'https://ocapista.com.br/imgs/capas/livro_de_horror_capa_livro_2.jpg',
-        titulo: 'Sessão da meia noite',
-        descricao: 'Contos sombrios que exploram os medos mais profundos da humanidade.',
+        urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg',
+        titulo: 'Mestres do Tempo',
+        descricao: 'Uma aventura épica no controle do tempo.',
+        dataDevolucao: '2024-12-15', // Exemplo de data
     },
     {
-        urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia_romance.jpg',
-        titulo: 'Filhas da Lua',
-        descricao: 'Uma história épica sobre magia, amor e sacrifício.',
+        urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg',
+        titulo: 'Mestres do Tempo',
+        descricao: 'Uma aventura épica no controle do tempo.',
+        dataDevolucao: '2024-12-20', // Exemplo de data
     },
-
-
-    ];
+];
 
   return (
     <View style = {Styles.container}>
@@ -54,12 +55,13 @@ export default function Favoritos() {
             <Text style = {Styles.titulo}>Reservas</Text>
         </View>
         <ScrollView contentContainerStyle = {Styles.favoritos}>
-                {favoritos.map((item, index) => (
-                    <CaixaFavoritos
+                {reservas.map((item, index) => (
+                    <CaixaReservas
                         key={index}
                         urlImagem={item.urlImagem}
                         titulo={item.titulo}
                         descricao={item.descricao}
+                        dataDevolucao={item.dataDevolucao}
                     />
                 ))}
         </ScrollView>

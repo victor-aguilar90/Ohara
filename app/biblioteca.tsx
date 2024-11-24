@@ -53,8 +53,8 @@ export default function Biblioteca() {
             <Text style = {Styles.titulo}>OharaLib</Text>
         </View>
         <View style = {Styles.itens}>
-            <Pressable style = {Styles.botoes} onPress={() => router.push("/favoritos")}>
-                <FontAwesomeIcon icon={faBookmark} size={38} />
+            <Pressable style = {Styles.botoes} onPress={() => router.push("/reservas")}>
+                <FontAwesomeIcon icon={faBookmark} size={38}/>
                 <Text style = {Styles.txtBotao}>Reservas</Text>
             </Pressable>
             <Pressable style = {Styles.botoes} onPress={() => router.push("/procurar")}>
@@ -178,13 +178,13 @@ const Styles = StyleSheet.create ({
         flexDirection: "row",
         alignContent: "space-between",
         justifyContent: "space-between",
-        height: 150,
-        marginBottom: 20
+        height: 140,
+        marginBottom: 45
     },
 
     botoes: {
         width: "45%",
-        height: "90%",
+        height: "100%",
         justifyContent: "center",
         alignItems: "center",
         boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.25)',
