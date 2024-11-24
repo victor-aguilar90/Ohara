@@ -51,7 +51,7 @@ const Styles = StyleSheet.create({
   },
   descricao: {
     fontFamily: "Light", 
-    fontSize: RFPercentage(1.9), // Ajustei o tamanho da fonte para a descrição
+    fontSize: RFPercentage(1.65), // Ajustei o tamanho da fonte para a descrição
   },
 });
 

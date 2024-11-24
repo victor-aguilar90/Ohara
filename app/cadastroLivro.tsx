@@ -1,3 +1,4 @@
+/*
 import { Text, View, TextInput, StyleSheet, Modal, Pressable, Button } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleCheck} from '@fortawesome/free-solid-svg-icons';
@@ -177,3 +178,4 @@ const Styles = StyleSheet.create ({
 
     
 });
+*/

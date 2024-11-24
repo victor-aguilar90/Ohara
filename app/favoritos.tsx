@@ -32,14 +32,14 @@ export default function Favoritos() {
         descricao: 'Uma aventura épica no controle do tempo.',
     },
     {
-        urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg',
-        titulo: 'Mestres do Tempo',
-        descricao: 'Uma aventura épica no controle do tempo.',
+        urlImagem: 'https://ocapista.com.br/imgs/capas/livro_de_horror_capa_livro_2.jpg',
+        titulo: 'Sessão da meia noite',
+        descricao: 'Contos sombrios que exploram os medos mais profundos da humanidade.',
     },
     {
-        urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia.jpg',
-        titulo: 'Mestres do Tempo',
-        descricao: 'Uma aventura épica no controle do tempo.',
+        urlImagem: 'https://ocapista.com.br/imgs/capas/capa_livro_fantasia_romance.jpg',
+        titulo: 'Filhas da Lua',
+        descricao: 'Uma história épica sobre magia, amor e sacrifício.',
     },
 
 
@@ -51,7 +51,7 @@ export default function Favoritos() {
             <Pressable style = {Styles.voltar} onPress={() => router.back()}>
                 <FontAwesomeIcon icon={faArrowLeft} size={30} />
             </Pressable>
-            <Text style = {Styles.titulo}>Favoritos</Text>
+            <Text style = {Styles.titulo}>Reservas</Text>
         </View>
         <ScrollView contentContainerStyle = {Styles.favoritos}>
                 {favoritos.map((item, index) => (

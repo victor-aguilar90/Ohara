@@ -18,7 +18,7 @@ const CaixaAtividade = ({ materia, descricao }) => (
 const Styles = StyleSheet.create({
   caixa: {
     width: "100%",
-    height: 160,
+    height: 140,
     backgroundColor: "white",
     boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.35)',
     elevation: 5,

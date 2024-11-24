@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { Text, View, TextInput, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TextInput, StyleSheet, Pressable, ActivityIndicator, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage } from "react-native-responsive-fontsize";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Index() {
   const [fontsLoaded] = useFonts({
@@ -22,31 +23,50 @@ export default function Index() {
   const handleLogin = async () => {
     setLoading(true);
     setError('');
+    console.log('Iniciando o processo de login'); // Log de início
+  
     try {
-      const response = await fetch('http://192.168.86.205:3000/login', { // IP do servidor backend
+      console.log('Enviando requisição ao servidor com:', { username, password }); // Log da requisição
+      const response = await fetch('http://192.168.10.181:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
       });
+  
+      console.log('Resposta recebida do servidor:', response); // Log da resposta
+  
+      // Verificando se a resposta é bem-sucedida
       const data = await response.json();
-
+      console.log('Dados retornados do servidor:', data); // Log dos dados retornados
+  
       if (response.ok) {
-        router.push('/principal'); // Redireciona para a tela principal
+        if (data.token) {
+          console.log('Login bem-sucedido, armazenando token no AsyncStorage'); // Log do sucesso
+          await AsyncStorage.setItem('userToken', data.token);
+          await AsyncStorage.setItem('aluno', JSON.stringify(data.aluno));
+          router.push('/principal');
+        } else {
+          console.warn('Token não retornado pelo servidor'); // Log do problema de token
+          setError('Token inválido ou não encontrado');
+        }
       } else {
-        setError(data.message); // Exibe mensagem de erro
+        console.error('Erro retornado pelo servidor:', data.message); // Log de erro do servidor
+        setError(data.message || 'Erro ao tentar fazer login');
       }
     } catch (err) {
-      console.error(err);
+      console.error('Erro no bloco catch durante o login:', err); // Log de erro inesperado
       setError('Erro ao tentar fazer login');
     } finally {
+      console.log('Finalizando o processo de login'); // Log final
       setLoading(false);
     }
   };
+  
 
   return (
-    <View style={Styles.container}>
+    <ScrollView contentContainerStyle={Styles.container}>
       {!fontsLoaded ? (
         <ActivityIndicator size="large" color="#000" />
       ) : (
@@ -56,7 +76,7 @@ export default function Index() {
           <TextInput
             placeholder="Digite seu RM"
             style={Styles.input}
-            keyboardType="email-address"
+            keyboardType="number-pad"
             value={username}
             onChangeText={setUsername}
           />
@@ -82,36 +102,51 @@ export default function Index() {
           </Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
 const Styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    flexGrow: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f0f0f0',
   },
   form: {
-    width: 300,
-    height: 500,
+    width: '90%',
+    maxWidth: 350,
+    height: 'auto',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    justifyContent: 'center',
   },
   titulo: {
     fontFamily: 'Medium',
-    fontSize: 40,
+    fontSize: RFPercentage(5),
     fontWeight: '500',
-    marginBottom: 56,
+    marginBottom: 20,
+    color: '#333',
+    textAlign: 'center',
   },
   label: {
     fontFamily: 'Light',
-    fontSize: RFPercentage(2.8),
+    fontSize: RFPercentage(2.5),
     fontWeight: '400',
     marginBottom: 6,
+    color: '#333',
   },
   botao: {
-    width: 300,
+    width: '100%',
     height: 50,
-    backgroundColor: 'black',
+    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -125,25 +160,31 @@ const Styles = StyleSheet.create({
   },
   input: {
     fontFamily: 'Light',
-    fontSize: RFPercentage(2.1),
+    fontSize: RFPercentage(2),
     height: 50,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
-    marginBottom: 31,
+    marginBottom: 25,
+    paddingHorizontal: 10,
   },
   txt: {
     marginTop: 32,
     fontFamily: 'Regular',
-    fontSize: 16,
+    fontSize: RFPercentage(2),
+    color: '#333',
+    textAlign: 'center',
   },
   cadastro: {
     fontSize: RFPercentage(2),
     fontFamily: 'Regular',
     color: '#0146F6',
+    textAlign: 'center',
+    marginTop: 10,
   },
   error: {
     color: 'red',
     fontSize: RFPercentage(2),
     marginTop: 10,
+    textAlign: 'center',
   },
 });
