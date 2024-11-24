@@ -208,8 +208,8 @@ const Styles = StyleSheet.create({
   input: {
     width: "80%",
     height: 45,
-    borderColor: "black",
-    borderWidth: 1,
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
     borderRadius: 5,
     fontSize: RFPercentage(1.9),
     alignItems:"center",

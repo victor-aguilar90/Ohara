@@ -94,8 +94,8 @@ export default function Index() {
           </Pressable>
           {error && <Text style={Styles.error}>{error}</Text>}
           <Text style={Styles.txt}>Esqueceu a senha?</Text>
-          <Text style={Styles.cadastro} onPress={() => router.push('/cadastro')}>
-            Trocar senha
+          <Text style={Styles.cadastro} onPress={() => router.push('/listaLivros')}>
+            Recuperar senha
           </Text>
         </View>
       )}
