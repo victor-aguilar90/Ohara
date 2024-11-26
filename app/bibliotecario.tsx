@@ -49,9 +49,9 @@ export default function Bibliotecario() {
                         <FontAwesomeIcon icon={faBook} size={40} />
                         <Text style = {Styles.botoesTxt}>Cadastrar Livros</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style = {Styles.botoes} >
+                    <TouchableOpacity style = {Styles.botoes} onPress={() => router.push("/listaLivros")}>
                         <FontAwesomeIcon icon={faClipboard} size={40}/>
-                        <Text style = {Styles.botoesTxt}>Remover Livros</Text>
+                        <Text style = {Styles.botoesTxt}>Lista de Livros</Text>
                     </TouchableOpacity>
                 </View>
             </View>

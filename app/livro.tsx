@@ -1,6 +1,5 @@
-import { Text, View, TextInput, StyleSheet, Pressable, Image, FlatList, ScrollView} from "react-native";
-import { faArrowLeft} from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { Text, View,  StyleSheet, Pressable, Image, Modal} from "react-native";
+import { faArrowLeft,faCircleCheck} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -189,5 +188,3 @@ const Styles = StyleSheet.create ({
       marginTop: 15
     }
 })
-
-*/

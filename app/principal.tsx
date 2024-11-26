@@ -103,9 +103,9 @@ export default function Principal() {
               </View>
 
               <View style={Styles.caixaBotoes}>
-                <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/grafico')}>
+                <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/notas')}>
                   <FontAwesomeIcon icon={faChartColumn} size={40} />
-                  <Text style={Styles.botoesTxt}>Gráfico do Aluno</Text>
+                  <Text style={Styles.botoesTxt}>Notas e Faltas</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/declaracoes')}>
                   <FontAwesomeIcon icon={faClipboard} size={40} />
@@ -210,7 +210,7 @@ const Styles = StyleSheet.create({
   botoesTxt: {
     width: 95,
     textAlign: "center",
-    fontSize: RFPercentage(2.2),
+    fontSize: RFPercentage(2.1),
     fontFamily: "Light",
     marginTop: 10,
   },
