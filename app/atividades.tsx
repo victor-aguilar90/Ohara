@@ -1,45 +1,99 @@
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Modal, Pressable } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Modal, Pressable, Alert } from "react-native";
 import { faArrowLeft, faPaperclip, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import CaixaAtividade from "@/components/CaixaAtividade";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { useState } from "react";
+import { RFPercentage } from "react-native-responsive-fontsize";
+import { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importando AsyncStorage
 import * as ImagePicker from 'expo-image-picker';
 
 export default function Atividades() {
     const router = useRouter();
-
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  // Função para abrir a galeria
-    const pickImage = async () => {
+    const [atividades, setAtividades] = useState([
+        { id: 1, materia: "DTCC", professor: "Prof° Érica", descricao: "Descrição da atividade 1", isCompleted: false },
+        { id: 2, materia: "Matemática", professor: "Prof° João", descricao: "Descrição da atividade 2", isCompleted: false },
+        { id: 3, materia: "História", professor: "Prof° Ana", descricao: "Descrição da atividade 3", isCompleted: false },
+        { id: 4, materia: "Física", professor: "Prof° Carlos", descricao: "Descrição da atividade 4", isCompleted: false },
+        { id: 5, materia: "Química", professor: "Prof° Lucas", descricao: "Descrição da atividade 5", isCompleted: false },
+    ]);
+    
+    // Função para buscar as atividades
+    const fetchAtividades = async () => {
+        const token = await getToken();
         try {
-      // Solicitar permissões de acesso
-            const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-        if (!permissionResult.granted) {
-            Alert.alert("Permissão necessária", "Você precisa permitir o acesso à galeria para anexar imagens.");
-            return;
+            const response = await fetch('http://192.168.10.181:3000/atividades', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            const data = await response.json();
+            if (data && data.atividades) {
+                setAtividades(data.atividades);
+            } else {
+                alert("Nenhuma atividade encontrada.");
+            }
+        } catch (error) {
+            console.error("Erro ao carregar atividades:", error);
+            alert("Erro ao carregar atividades.");
         }
+    };
 
-      // Abrir a galeria
-    const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images, // Apenas imagens
-        allowsEditing: true, // Permitir edição
-        aspect: [4, 3], // Proporção do corte
-        quality: 1, // Qualidade da imagem (0 a 1)
-    });
+    // Carregar atividades na primeira renderização
+    useEffect(() => {
+        fetchAtividades();
+    }, []);
 
-    if (!result.canceled) {
-        // Salvar a URI da imagem
-        setSelectedImage(result.assets[0].uri);
-      }
-    } catch (error) {
-      Alert.alert("Erro", "Ocorreu um erro ao tentar anexar a imagem.");
-      console.error(error);
-    }
+    // Função para abrir a galeria
+    const pickImage = async (atividadeId: number) => {
+        try {
+            const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (!permissionResult.granted) {
+                Alert.alert("Permissão necessária", "Você precisa permitir o acesso à galeria para anexar imagens.");
+                return;
+            }
+
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            if (!result.canceled) {
+                setSelectedImage(result.assets[0].uri);
+
+                // Simular a remoção da atividade após anexar a imagem
+                setAtividades(prevAtividades => 
+                    prevAtividades.map(atividade => 
+                        atividade.id === atividadeId ? { ...atividade, isCompleted: true } : atividade
+                    )
+                );
+            }
+        } catch (error) {
+            Alert.alert("Erro", "Ocorreu um erro ao tentar anexar a imagem.");
+            console.error(error);
+        }
+    };
+
+    // Função para obter o token
+    const getToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('userToken');
+            if (!storedToken) {
+                console.error('Token não encontrado, por favor faça login novamente.');
+                alert('Token não encontrado. Redirecionando para login...');
+                // Caso não tenha token, redireciona para o login
+                router.push('/principal');
+            }
+            return storedToken;
+        } catch (error) {
+            console.error('Erro ao acessar o token:', error);
+            alert('Erro ao acessar o token');
+        }
     };
 
     const [fontsLoaded] = useFonts({
@@ -47,73 +101,46 @@ export default function Atividades() {
         'SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
         'Medium': require('../assets/fonts/Poppins-Medium.ttf'),
         'Light': require('../assets/fonts/Poppins-Light.ttf'),
-        
     });
 
     if (!fontsLoaded) {
         return <Text>Carregando fontes...</Text>;
     }
 
-    const [modalVisible, setModalVisible] = useState(false);
-
-  
-    const showModal = () => {
-        setModalVisible(true);
-    };
-
-    const hideModal = () => {
-        setModalVisible(false);
-    };
-
-    const atividades = [
-        { materia: "DTCC", professor: "Prof° Érica", descricao: "Descrição da atividade 1" },
-        { materia: "Matemática", professor: "Prof° João", descricao: "Descrição da atividade 2" },
-        { materia: "História", professor: "Prof° Ana", descricao: "Descrição da atividade 3" },
-        { materia: "Física", professor: "Prof° Carlos", descricao: "Descrição da atividade 4" },
-        { materia: "Química", professor: "Prof° Lucas", descricao: "Descrição da atividade 5" },
-      ];
-
-    return(
-        <View style = {Styles.container}>
-            <View style = {Styles.content}>
-                <View style = {Styles.topo}>
-                    <TouchableOpacity style = {Styles.voltar} onPress={() => router.back()}>
+    return (
+        <View style={Styles.container}>
+            <View style={Styles.content}>
+                <View style={Styles.topo}>
+                    <TouchableOpacity style={Styles.voltar} onPress={() => router.back()}>
                         <FontAwesomeIcon icon={faArrowLeft} size={30} />
                     </TouchableOpacity>
-                    <Text style = {Styles.titulo}>Atividades</Text>
+                    <Text style={Styles.titulo}>Atividades</Text>
                 </View>
-                <ScrollView contentContainerStyle = {Styles.rolarAtv}>
-                    {atividades.map((atividade, index) => (
-                        <CaixaAtividade
-                            key={index}
-                            materia={atividade.materia}
-                            descricao={atividade.descricao}
-                            popup={showModal}
-                        />
-                    ))} 
+                <ScrollView contentContainerStyle={Styles.rolarAtv}>
+                    {atividades.map((atividade) => (
+                        !atividade.isCompleted && (
+                            <CaixaAtividade
+                                key={atividade.id}
+                                materia={atividade.materia}
+                                descricao={atividade.descricao}
+                                popup={() => pickImage(atividade.id)}
+                            />
+                        )
+                    ))}
                 </ScrollView>
             </View>
             <Modal
-                animationType="fade"  // Pode ser 'slide', 'fade', ou 'none'
-                transparent={true}      // Torna o fundo semi-transparente
-                visible={modalVisible}  // Controla se o modal está visível
-                onRequestClose={hideModal}  // Fechar o modal ao pressionar o botão de "Voltar"
+                animationType="fade"
+                transparent={true}
+                visible={!!selectedImage}
+                onRequestClose={() => setSelectedImage(null)}
             >
                 <View style={Styles.fundo}>
                     <View style={Styles.caixa}>
-                        <Text style={Styles.tituloAtv}>Atividade Fluter</Text>
-                        <Text style={Styles.dataVenc}>Vence 13 de novembro de 2024 às 23:59</Text>
-                        <Text style = {Styles.titDesc}>Descrição:</Text>
-                        <Text style = {Styles.descricao}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, qui. Aliquid voluptatem nesciunt, unde consectetur, deserunt earum eos eius adipisci impedit ratione quia dolorum modi veniam magnam incidunt tempora nostrum?</Text>
-                        <Text style={Styles.titTrabalho}>Meu trabalho:</Text>
-                        <Pressable style={Styles.botao} onPress={pickImage}>
-                            <FontAwesomeIcon icon={faPaperclip} color="white" size={16} />
-                            <Text style={Styles.txtAnexo}>Anexo</Text>
-                        </Pressable>
-                        <Pressable style={Styles.fecharPopup} onPress={hideModal}>
+                        <Text style={Styles.tituloAtv}>Atividade Enviada</Text>
+                        <Pressable style={Styles.fecharPopup} onPress={() => setSelectedImage(null)}>
                             <FontAwesomeIcon icon={faXmark} size={26} color="black"/>
                         </Pressable>
-                        
                     </View>
                 </View>
             </Modal>
@@ -121,13 +148,12 @@ export default function Atividades() {
     );
 }
 
-const Styles = StyleSheet.create ({
+const Styles = StyleSheet.create({
     container: {
         width: "100%",
         height: '100%',
         alignItems: "center",
         justifyContent: "center",
-
     },
 
     content: {
@@ -190,53 +216,9 @@ const Styles = StyleSheet.create ({
         marginBottom: 5
     },
 
-    dataVenc: {
-        fontFamily: "Regular",
-        fontSize: RFPercentage(1.7),
-        marginBottom: 15
-    },
-
-    titDesc: {
-        fontFamily: "Medium",
-        fontSize: RFPercentage(1.9),
-        marginBottom: 5
-    },
-
-    descricao: {
-        fontFamily: "Regular",
-        fontSize: RFPercentage(1.6),
-        marginBottom:5
-    },
-
-    titTrabalho: {
-        fontFamily: "Medium",
-        fontSize: RFPercentage(1.7),
-        marginTop: 10,
-        marginBottom: 5
-    },
-
-    botao: {
-        flexDirection:"row",
-        alignItems: "center",
-        width: 120,
-        height: 40, 
-        backgroundColor:"black",
-        borderRadius: 10,
-        justifyContent: "center"
-    },
-
-    txtAnexo: {
-        fontSize: RFPercentage(1.6),
-        color: "white",
-        fontFamily: "Regular",
-        marginLeft: 10
-    },
-
     fecharPopup: {
         top: "5%",
         right: "5%",
         position: "absolute"
     }
-
-
-})
+});

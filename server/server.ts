@@ -5,12 +5,16 @@ import cors from 'cors';
 import emailjs from 'emailjs-com';  // Importando o emailjs
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 dotenv.config(); // Carrega as variáveis de ambiente
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
 const app = express();
 const port = 3000;
+
 
 // Usando o middleware CORS
 app.use(cors({
@@ -317,4 +321,41 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log('Configurando CORS para a origem:', req.headers.origin);
   next();
+});
+
+
+app.get('/atividades', verifyToken, (req: Request, res: Response) => {
+  const rmAluno = req.body.user.rm; // RM do aluno autenticado
+
+  // Garantir que o tipo de `row` seja `Aluno`
+  db.get("SELECT id, nome FROM alunos WHERE rm = ?", [rmAluno], (err, row: Aluno) => { // Aqui, 'row' é do tipo 'Aluno'
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao buscar aluno', error: err.message });
+    }
+
+    // Verificar se o aluno foi encontrado
+    if (!row || !row.id) {
+      return res.status(404).json({ message: 'Aluno não encontrado' });
+    }
+
+    const alunoId = row.id; // Agora temos o id do aluno
+
+    // Consultar atividades usando o id do aluno e incluir detalhes do aluno
+    db.all(`
+      SELECT atividades.*, alunos.nome AS nome_aluno, alunos.rm AS rm_aluno
+      FROM atividades
+      JOIN alunos ON atividades.aluno_id = alunos.id
+      WHERE atividades.aluno_id = ?`, [alunoId], (err, rows) => {
+      if (err) {
+        return res.status(500).json({ message: 'Erro ao buscar atividades', error: err.message });
+      }
+
+      if (rows.length === 0) {
+        return res.status(404).json({ message: 'Nenhuma atividade encontrada para este aluno' });
+      }
+
+      // Retorna as atividades com todos os dados relacionados, incluindo anexo (BLOB)
+      res.status(200).json({ atividades: rows });
+    });
+  });
 });
