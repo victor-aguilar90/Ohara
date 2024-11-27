@@ -14,10 +14,9 @@ export default function Notas() {
         'SemiBold': require('../assets/fonts/Poppins-SemiBold.ttf'),
         'Medium': require('../assets/fonts/Poppins-Medium.ttf'),
         'Light': require('../assets/fonts/Poppins-Light.ttf'),
-        
     });
 
-    const [selectedValue, setSelectedValue] = useState("Selecione uma máteria");
+    const [selectedValue, setSelectedValue] = useState("Selecione uma matéria");
     const [isModalVisible, setModalVisible] = useState(false);
   
     const options = [
@@ -27,24 +26,32 @@ export default function Notas() {
       { label: "Banco de Dados III", value: "Banco de Dados III" },
       { label: "Programação de Aplicativos", value: "Programação de Aplicativos" },
     ];
-  
+
+    const getRandomGrade = () => {
+        const grades = ["MB", "B", "R", "I"]; // Médias possíveis
+        return grades[Math.floor(Math.random() * grades.length)];
+    };
+
+    const getRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
     const selectOption = (value) => {
       setSelectedValue(value);
       setModalVisible(false);
     };
   
-    
     if (!fontsLoaded) {
         return <Text>Carregando fontes...</Text>;  // Ou algum indicador de carregamento
     }
 
     return (
-        <View style = {Styles.container}>
-            <View style = {Styles.topo}>
-                <Pressable style = {Styles.voltar} onPress={() => router.back()}>
+        <View style={Styles.container}>
+            <View style={Styles.topo}>
+                <Pressable style={Styles.voltar} onPress={() => router.back()}>
                     <FontAwesomeIcon icon={faArrowLeft} size={30} />
                 </Pressable>
-                <Text style = {Styles.titulo}>Notas e Faltas</Text>
+                <Text style={Styles.titulo}>Notas e Faltas</Text>
             </View>
 
             <TouchableOpacity
@@ -55,32 +62,31 @@ export default function Notas() {
                 <Text style={Styles.buttonText}>{selectedValue || "Selecione"}</Text>
             </TouchableOpacity>
 
-            <View style = {Styles.caixa}>
+            <View style={Styles.caixa}>
                 <View style={Styles.caixaNotas}>
                     <Text style={Styles.titNotas}>1° Bim:</Text>
-                    <Text style={Styles.notas}>MB</Text>
+                    <Text style={Styles.notas}>{getRandomGrade()}</Text>
                 </View>
                 <View style={Styles.caixaNotas}>
                     <Text style={Styles.titNotas}>2° Bim:</Text>
-                    <Text style={Styles.notas}>-</Text>
+                    <Text style={Styles.notas}>{getRandomGrade()}</Text>
                 </View>
                 <View style={Styles.caixaNotas}>
-                    <Text style={Styles.titNotas}>Faltas</Text>
-                    <Text style={Styles.notas}>12,5</Text>
+                    <Text style={Styles.titNotas}>Faltas:</Text>
+                    <Text style={Styles.notas}>{getRandomNumber(0, 20)}</Text>
                 </View>
                 <View style={Styles.caixaNotas}>
-                    <Text style={Styles.titNotas}>Faltas Permitidas</Text>
-                    <Text style={Styles.notas}>25</Text>
+                    <Text style={Styles.titNotas}>Faltas Permitidas:</Text>
+                    <Text style={Styles.notas}>{getRandomNumber(20, 30)}</Text>
                 </View>
                 <View style={Styles.caixaNotas}>
-                    <Text style={Styles.titNotas}>Freq. Atual</Text>
-                    <Text style={Styles.notas}>75</Text>
+                    <Text style={Styles.titNotas}>Freq. Atual:</Text>
+                    <Text style={Styles.notas}>{getRandomNumber(50, 100)}</Text>
                 </View>
                 <View style={Styles.caixaNotas}>
-                    <Text style={Styles.titNotas}>Freq. Total</Text>
-                    <Text style={Styles.notas}>100</Text>
+                    <Text style={Styles.titNotas}>Freq. Total:</Text>
+                    <Text style={Styles.notas}>{getRandomNumber(50, 100)}</Text>
                 </View>
-                
             </View>
 
             <Modal
@@ -105,7 +111,6 @@ export default function Notas() {
             </Modal>
         </View>
     );
-    
 }
 
 const Styles = StyleSheet.create({
@@ -212,6 +217,4 @@ const Styles = StyleSheet.create({
         fontFamily: "Light",
         fontSize: RFPercentage(3)
     }
-
-
-})
+});

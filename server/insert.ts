@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3');
 const bcrypt = require('bcrypt');
 
+// Conexão com o banco de dados SQLite
 const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.error('Erro ao conectar ao banco:', err.message);
@@ -24,6 +25,17 @@ const novoAluno = {
   cod_etec: 5678,
   senha: 'senha9876', // Senha em texto puro
   rm: 654321,
+  atividades: 'Matemática, Física, Química', // Exemplos de atividades
+  faltas1: 4,
+  frequencia1: 88,
+  faltas2: 4,
+  frequencia2: 88,
+  faltas3: 4,
+  frequencia3: 88,
+  faltas4: 4,
+  frequencia4: 88,
+  faltas5: 4,
+  frequencia5: 88,
 };
 
 // Gerar o hash da senha
@@ -41,8 +53,10 @@ bcrypt.hash(novoAluno.senha, 10, (err, hash) => {
     INSERT INTO alunos (
       nome, data_nascimento, endereco, telefone, email, 
       data_matricula, nome_responsavel, contato_responsavel, 
-      status_estudante, turmas, cod_etec, senha, rm
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      status_estudante, turmas, cod_etec, senha, rm, atividades, 
+      faltas1, frequencia1, faltas2, frequencia2, faltas3, frequencia3,
+      faltas4, frequencia4, faltas5, frequencia5
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -59,8 +73,20 @@ bcrypt.hash(novoAluno.senha, 10, (err, hash) => {
     novoAluno.cod_etec,
     novoAluno.senha, // Senha hasheada
     novoAluno.rm,
+    novoAluno.atividades,
+    novoAluno.faltas1,
+    novoAluno.frequencia1,
+    novoAluno.faltas2,
+    novoAluno.frequencia2,
+    novoAluno.faltas3,
+    novoAluno.frequencia3,
+    novoAluno.faltas4,
+    novoAluno.frequencia4,
+    novoAluno.faltas5,
+    novoAluno.frequencia5,
   ];
 
+  // Executando o comando de insert no banco
   db.run(sql, params, function (err) {
     if (err) {
       console.error('Erro ao inserir o aluno no banco:', err.message);
@@ -69,7 +95,7 @@ bcrypt.hash(novoAluno.senha, 10, (err, hash) => {
     }
   });
 
-  // Fechar conexão
+  // Fechar a conexão com o banco
   db.close((err) => {
     if (err) {
       console.error('Erro ao fechar o banco:', err.message);

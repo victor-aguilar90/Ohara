@@ -29,8 +29,7 @@ export default function Principal() {
     const checkTokenAndRedirect = async () => {
       const storedToken = await AsyncStorage.getItem('userToken');
       if (!storedToken) {
-        // Se não houver token, redireciona para o login
-        router.replace('/login');
+        
       }
     };
 
@@ -105,7 +104,7 @@ export default function Principal() {
               <View style={Styles.caixaBotoes}>
                 <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/notas')}>
                   <FontAwesomeIcon icon={faChartColumn} size={40} />
-                  <Text style={Styles.botoesTxt}>Notas e Faltas</Text>
+                  <Text style={Styles.botoesTxt}>Gráfico do Aluno</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/declaracoes')}>
                   <FontAwesomeIcon icon={faClipboard} size={40} />
@@ -210,7 +209,7 @@ const Styles = StyleSheet.create({
   botoesTxt: {
     width: 95,
     textAlign: "center",
-    fontSize: RFPercentage(2.1),
+    fontSize: RFPercentage(2.2),
     fontFamily: "Light",
     marginTop: 10,
   },

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Pressable, TextInput, Modal } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { faArrowLeft, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFonts } from 'expo-font';
-import { useRouter } from 'expo-router';
 import { RFPercentage } from "react-native-responsive-fontsize";
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importando AsyncStorage
+import { useRouter } from 'expo-router';
 
 export default function Declaracoes() {
   const [selectedValue, setSelectedValue] = useState('declaracao1');
@@ -18,28 +19,47 @@ export default function Declaracoes() {
     Medium: require('../assets/fonts/Poppins-Medium.ttf'),
     Light: require('../assets/fonts/Poppins-Light.ttf'),
   });
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   if (!fontsLoaded) {
     return null;
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
+  interface Declaracao {
+    protocolo: string;
+    status: string;
+    // Adicione outros campos conforme necessário
+  }
 
-  const mostrarPopupTempo = () => {
-    setModalVisible(true);
-    setTimeout(() => {
-      setModalVisible(false);
-    }, 2500);
+  // Função para obter o token
+  const getToken = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('userToken');
+      if (!storedToken) {
+        console.error('Token não encontrado, por favor faça login novamente.');
+        alert('Token não encontrado. Redirecionando para login...');
+        // Caso não tenha token, redireciona para o login
+        router.push('/principal');
+      }
+      return storedToken;
+    } catch (error) {
+      console.error('Erro ao acessar o token:', error);
+      alert('Erro ao acessar o token');
+    }
   };
 
+  // Solicitar declaração (com a API '/solicitar-declaracao')
   const solicitarDeclaracao = async () => {
     try {
-      const response = await fetch('http://192.168.43.205:3000/solicitar-declaracao', {
+      const token = await getToken(); // Obtém o token antes de fazer a solicitação
+      console.log('Iniciando solicitação de declaração...');
+      const response = await fetch('http://192.168.10.181:3000/solicitar-declaracao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Usando o token armazenado
         },
         body: JSON.stringify({
           tipo: selectedValue,
@@ -48,32 +68,68 @@ export default function Declaracoes() {
       });
 
       const data = await response.json();
+
       if (response.ok) {
         setProtocolo(data.protocolo); // Armazena o protocolo retornado
         mostrarPopupTempo(); // Exibe o popup com sucesso
+        console.log('Solicitação realizada com sucesso, protocolo:', data.protocolo);
       } else {
+        console.error('Erro ao solicitar declaração:', data.message || 'Tente novamente.');
         alert('Erro ao solicitar declaração: ' + (data.message || 'Tente novamente.'));
       }
     } catch (error) {
       console.error('Erro ao fazer solicitação:', error);
-      alert('Erro ao fazer solicitação: ' + error.message);
+      alert('Erro ao fazer solicitação: ' + error);
     }
   };
 
   const consultarDeclaracao = async () => {
     try {
-      const response = await fetch(`http://192.168.43.205:3000/consultar-declaracao/${protocolo}`);
+      const token = await getToken(); // Obtém o token antes de consultar
+      console.log('Consultando declaração com protocolo:', protocolo);
+      const response = await fetch(`http://192.168.10.181:3000/minhas-declaracoes`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Usando o token armazenado
+        },
+      });
+  
       const data = await response.json();
+  
       if (response.ok) {
-        setStatus(data.status);  // Atribui o status retornado
+        // Tipando a variável 'declaracao' com a interface Declaracao
+        const declaracao: Declaracao | undefined = data.declaracoes.find(
+          (decl: Declaracao) => decl.protocolo === protocolo
+        );
+  
+        if (declaracao) {
+          setStatus(declaracao.status);  // Atribui o status retornado
+          console.log('Status da declaração:', declaracao.status);
+        } else {
+          console.error('Declaração não encontrada com o protocolo informado.');
+          alert('Declaração não encontrada');
+        }
       } else {
-        alert('Declaração não encontrada');
+        console.error('Erro ao consultar declaração:', data.message || 'Tente novamente.');
+        alert('Erro ao consultar declaração');
       }
     } catch (error) {
       console.error('Erro ao consultar declaração:', error);
       alert('Erro ao consultar declaração');
     }
   };
+
+  const mostrarPopupTempo = () => {
+    setModalVisible(true);
+    setTimeout(() => {
+      setModalVisible(false);
+    }, 2500);
+  };
+
+  useEffect(() => {
+    getToken(); // Chama a função para verificar o token ao carregar o componente
+  }, []);
 
   return (
     <View style={Styles.container}>
@@ -91,7 +147,7 @@ export default function Declaracoes() {
           onValueChange={(itemValue) => setSelectedValue(itemValue)}
           style={Styles.picker}
         >
-          <Picker.Item style={Styles.pickerTxt} label="Declaração de matricula" value="Decla" />
+          <Picker.Item style={Styles.pickerTxt} label="Declaração de matrícula" value="Decla" />
         </Picker>
         <Text style={Styles.txt}>Motivo da solicitação</Text>
         <TextInput
@@ -107,12 +163,12 @@ export default function Declaracoes() {
 
       <View style={Styles.protocolos}>
         <Text style={Styles.txt}>CONSULTAR DECLARAÇÃO</Text>
-        <Text style={Styles.txtP}>N° do protocolo:</Text>
+        <Text style={Styles.txt}>N° do protocolo:</Text>
         <TextInput
           placeholder="Digite aqui o protocolo"
           style={Styles.input}
           value={protocolo}
-          editable={false} // O campo de protocolo será apenas para leitura após a solicitação
+          onChangeText={setProtocolo}
         />
         <Pressable style={Styles.botao} onPress={consultarDeclaracao}>
           <Text style={Styles.botaoTexto}>CONSULTAR</Text>
@@ -132,7 +188,7 @@ export default function Declaracoes() {
             <FontAwesomeIcon icon={faCircleCheck} size={45} color="green" />
             <Text style={Styles.txtPopup}>Solicitação feita com sucesso!</Text>
             {protocolo ? (
-              <Text style={Styles.txtPopup}>Protocolo: {protocolo}</Text>  // Exibe o número do protocolo
+              <Text style={Styles.txtPopup}>Protocolo: {protocolo}</Text>
             ) : (
               <Text style={Styles.txtPopup}>Aguarde enquanto geramos o protocolo...</Text>
             )}
@@ -208,8 +264,8 @@ const Styles = StyleSheet.create({
   input: {
     width: "80%",
     height: 45,
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
+    borderColor: "black",
+    borderWidth: 1,
     borderRadius: 5,
     fontSize: RFPercentage(1.9),
     alignItems:"center",
@@ -219,65 +275,55 @@ const Styles = StyleSheet.create({
   botao: {
     width: "80%",
     height: 45,
-    color: "white",
-    backgroundColor: "black",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius: 10,
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    backgroundColor: "#00B0B9",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
   },
   botaoTexto: {
-    fontFamily:'SemiBold',
-    fontSize: RFPercentage(2.4),
-    color: "white"
+    color: "white",
+    fontFamily: "Regular",
+    fontSize: RFPercentage(2.1),
   },
   protocolos: {
     width: "80%",
-    height: 250,
+    height: 270,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
     backgroundColor: "white",
-    marginTop: 20,
     borderRadius: 10,
+    marginBottom: 20,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column",
-  },
-  txtP: {
-    textAlign: "center",
-    fontFamily: "Light",
-    fontSize: RFPercentage(2.1),
-    marginBottom: 15
   },
   status: {
-    fontFamily: "Light",
-    fontSize: RFPercentage(2.0),
-    marginTop: 20
+    fontFamily: "Regular",
+    fontSize: RFPercentage(2),
+    marginTop: 10,
+    color: "green",
   },
   fundo: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
   popup: {
+    width: 250,
+    height: 160,
     justifyContent: "center",
     alignItems: "center",
-    width: 300,
-    height: 200,
     backgroundColor: "white",
     borderRadius: 10,
-    padding: 20,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    padding: 15,
   },
   txtPopup: {
+    fontFamily: "Medium",
+    fontSize: 18,
     textAlign: "center",
-    fontFamily: "SemiBold",
-    fontSize: RFPercentage(2.3),
-  }
+    marginTop: 10,
+  },
 });

@@ -66,8 +66,22 @@ interface Aluno {
   token?: string;
 }
 
-// Função de login
-function login(username: string, password: string, callback: (error: Error | null, user?: Aluno | null) => void): void {
+export interface Biblioteca {
+  id: number;                      // Identificador único
+  biblioterio: string;             // Nome do bibliotecário ou referência
+  rm: number;                      // RM do bibliotecário
+  senha: string;                   // Senha de acesso
+  titulo: string;                  // Título do item na biblioteca
+  autor: string;                   // Autor do item
+  descricao?: string;              // Descrição do item (opcional)
+  quantidade_disponivel: number;   // Quantidade disponível do item
+  url_imagem?: string;             // URL da imagem do item (opcional)
+  token?: string;                  // Token JWT (opcional)
+}
+
+
+// Função para login do aluno
+function login(username: string, password: string, callback: (error: Error | null, user?: any | null) => void): void {
   db.get("SELECT * FROM alunos WHERE rm = ?", [username], (error: Error | null, user: Aluno | undefined) => {
     if (error) {
       callback(error);
@@ -75,7 +89,8 @@ function login(username: string, password: string, callback: (error: Error | nul
     }
 
     if (!user) {
-      callback(null, null);
+      // Se o usuário não existir na tabela alunos, tenta na biblioteca
+      checkLibraryLogin(username, password, callback);
       return;
     }
 
@@ -87,12 +102,7 @@ function login(username: string, password: string, callback: (error: Error | nul
       console.log('Resultado da comparação de senha: ', result); 
 
       if (result) {
-        // Gerando o token JWT
         const token = jwt.sign({ id: user.id, rm: user.rm }, JWT_SECRET, { expiresIn: '1h' });
-        console.log('Token gerado: ', token); // Isso ajudará a identificar se o token é gerado corretamente.
-              
-
-        // Retornando o token no lugar dos dados do usuário
         callback(null, { ...user, token });
       } else {
         callback(null, null);
@@ -101,32 +111,161 @@ function login(username: string, password: string, callback: (error: Error | nul
   });
 }
 
-// Rota de login
-app.post('/login', (req: Request, res: Response): void => {
-  const { username, password } = req.body;
-  
-  console.log('Tentando fazer login com RM:', username);  // Log do username
-
-  login(username, password, (error, user) => {
+// Função para verificar login na API da biblioteca
+function checkLibraryLogin(username: string, password: string, callback: (error: Error | null, user?: any | null) => void): void {
+  fetch('http://192.168.10.181:3000/biblioteca/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.token) {
+        callback(null, data);
+      } else {
+        callback(null, null);
+      }
+    })
+    .catch(err => callback(err));
+}
+// Função de login
+function loginBiblioteca(
+  username: string,
+  password: string,
+  callback: (error: Error | null, user?: Biblioteca | null) => void
+): void {
+  db.get("SELECT * FROM biblioteca WHERE rm = ?", [username], (error: Error | null, user: Biblioteca | undefined) => {
     if (error) {
-      console.error('Erro ao fazer login:', error.message);
+      callback(error);
+      return;
+    }
+
+    if (!user) {
+      callback(null, null); // Caso o usuário não exista
+      return;
+    }
+
+    // Verifica a senha usando bcrypt
+    bcrypt.compare(password, user.senha, (err: Error | undefined, result: boolean) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      if (result) {
+        // Gera o token JWT
+        const token = jwt.sign(
+          { id: user.id, rm: user.rm, biblioterio: user.biblioterio },
+          JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+
+        // Retorna o usuário e o token
+        callback(null, { ...user, token });
+      } else {
+        callback(null, null); // Senha incorreta
+      }
+    });
+  });
+}
+
+
+app.post('/login/biblioteca', (req: Request, res: Response): void => {
+  const { username, password } = req.body;
+
+  loginBiblioteca(username, password, (error, user) => {
+    if (error) {
       return res.status(500).json({ message: 'Erro ao fazer login', error: error.message });
     }
 
     if (user) {
-      console.log('Login bem-sucedido para o aluno:', user.rm);
-      const { senha, ...userData } = user;  // Remover a senha do objeto
+      const { senha, ...userData } = user; // Remove a senha antes de retornar
       res.status(200).json({
         message: 'Login bem-sucedido!',
         token: user.token,
-        aluno: userData,  // Retorna os dados do aluno
+        bibliotecario: userData, // Retorna os dados do bibliotecário sem a senha
       });
     } else {
-      console.log('Credenciais inválidas para RM:', username);
       res.status(401).json({ message: 'Credenciais inválidas!' });
     }
   });
 });
+function verifyBibliotecaToken(req: Request, res: Response, next: NextFunction): void {
+  const token = req.headers['authorization']?.split(' ')[1]; // Extrair o token do header
+
+  if (!token) {
+    console.log('Token não fornecido');
+    return ;
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.log('Token inválido');
+      return res.status(401).json({ message: 'Token inválido!' });
+    }
+
+    req.body.user = decoded; // Salva os dados do usuário no corpo da requisição
+    next(); // Chama a próxima função no middleware
+  });
+}
+
+
+app.get('/mee', verifyBibliotecaToken, (req: Request, res: Response) => {
+  const userId = req.body.user.id; // ID do usuário logado
+
+  db.get("SELECT * FROM biblioteca WHERE id = ?", [userId], (err, row: Biblioteca) => {
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao buscar dados do bibliotecário', error: err.message });
+    }
+
+    if (!row) {
+      return res.status(404).json({ message: 'Bibliotecário não encontrado' });
+    }
+
+    res.status(200).json(row); // Retorna os dados do bibliotecário
+  });
+});
+
+
+
+// Middleware para logar todas as requisições recebidas
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`Recebendo requisição para: ${req.method} ${req.url}`);
+  next();
+});
+
+// Middleware para configurar CORS
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Ajuste conforme necessário
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  console.log('CORS configurado para:', req.headers.origin);
+  next();
+});
+
+// Rota de login
+app.post('/login', (req: Request, res: Response): void => {
+  const { username, password } = req.body;
+  
+  login(username, password, (error, user) => {
+    if (error) {
+      return res.status(500).json({ message: 'Erro ao fazer login', error: error.message });
+    }
+
+    if (user) {
+      const { senha, ...userData } = user;
+      res.status(200).json({
+        message: 'Login bem-sucedido!',
+        token: user.token,
+        aluno: userData,
+      });
+    } else {
+      res.status(401).json({ message: 'Credenciais inválidas!' });
+    }
+  });
+});
+
+
 
 
 
@@ -357,5 +496,159 @@ app.get('/atividades', verifyToken, (req: Request, res: Response) => {
       // Retorna as atividades com todos os dados relacionados, incluindo anexo (BLOB)
       res.status(200).json({ atividades: rows });
     });
+  });
+});
+
+
+interface Livro {
+  id: number; // ID gerado automaticamente pelo banco de dados
+  titulo: string;
+  autor: string;
+  descricao: string | null;
+  quantidade: number;
+  biblioteca_id: number;  // ID da biblioteca relacionada (opcional, caso necessário)
+  imagem_url: string | null;
+  created_at: string; // Timestamp da criação
+  updated_at: string; // Timestamp da última atualização
+}
+
+
+app.post('/cadastrar-livro', (req: Request, res: Response): void => {
+  const { titulo, autor, descricao, quantidade, biblioteca_id, imagem_url } = req.body;
+
+  // Verifica se os campos obrigatórios foram fornecidos
+  if (!titulo || !autor || !quantidade) {
+    return ;
+  }
+
+  db.run(
+    `INSERT INTO livros (titulo, autor, descricao, quantidade, biblioteca_id, imagem_url) 
+     VALUES (?, ?, ?, ?, ?, ?)`,
+    [titulo, autor, descricao || null, quantidade, biblioteca_id || null, imagem_url || null],
+    function (err) {
+      if (err) {
+        console.error('Erro ao registrar livro:', err.message);
+        return res.status(500).json({ message: 'Erro ao registrar livro', error: err.message });
+      }
+
+      // Retorna sucesso com os dados do livro cadastrado
+      res.status(201).json({
+        message: 'Livro cadastrado com sucesso',
+        livro: {
+          id: this.lastID, // ID gerado automaticamente pelo banco de dados
+          titulo,
+          autor,
+          descricao,
+          quantidade,
+          biblioteca_id,
+          imagem_url,
+        },
+      });
+    }
+  );
+});
+
+
+app.post('/editar-livro', (req: Request, res: Response): void => {
+  const { titulo, autor, descricao, quantidade, biblioteca_id, imagem_url } = req.body;
+
+  // Verifica se o ID da biblioteca e pelo menos um campo de dado foi fornecido
+  if (!biblioteca_id || !titulo || !autor || !quantidade) {
+    return;
+  }
+
+  // Atualiza o livro com base no biblioteca_id
+  const query = `
+    UPDATE livros
+    SET
+      titulo = ?, 
+      autor = ?, 
+      descricao = ?, 
+      quantidade = ?, 
+      imagem_url = ?
+    WHERE biblioteca_id = ?;
+  `;
+
+  db.run(
+    query,
+    [titulo, autor, descricao || null, quantidade, imagem_url || null, biblioteca_id],
+    function (err) {
+      if (err) {
+        console.error('Erro ao atualizar livro:', err.message);
+        return res.status(500).json({ message: 'Erro ao atualizar livro', error: err.message });
+      }
+
+      if (this.changes === 0) {
+        return res.status(404).json({ message: 'Livro não encontrado com o biblioteca_id fornecido.' });
+      }
+
+      // Retorna sucesso com os dados do livro atualizado
+      res.status(200).json({
+        message: 'Livro atualizado com sucesso',
+        livro: {
+          biblioteca_id,
+          titulo,
+          autor,
+          descricao,
+          quantidade,
+          imagem_url,
+        },
+      });
+    }
+  );
+});
+
+
+// API para excluir um livro
+app.post('/excluir-livro', (req: Request, res: Response): void => {
+  const { biblioteca_id } = req.body;
+
+  // Verifica se o ID da biblioteca foi fornecido
+  if (!biblioteca_id) {
+    return;
+  }
+
+  // Exclui o livro com base no biblioteca_id
+  const query = `
+    DELETE FROM livros
+    WHERE biblioteca_id = ?;
+  `;
+
+  db.run(query, [biblioteca_id], function (err) {
+    if (err) {
+      console.error('Erro ao excluir livro:', err.message);
+      return res.status(500).json({ message: 'Erro ao excluir livro', error: err.message });
+    }
+
+    if (this.changes === 0) {
+      return res.status(404).json({ message: 'Livro não encontrado com o biblioteca_id fornecido.' });
+    }
+
+    // Retorna sucesso
+    res.status(200).json({
+      message: 'Livro excluído com sucesso',
+    });
+  });
+});
+
+app.get('/livros', (req: Request, res: Response): void => {
+  const query = `
+    SELECT 
+      id, titulo, autor, descricao, quantidade, biblioteca_id, imagem_url, created_at, updated_at 
+    FROM livros;
+  `;
+
+  db.all(query, (err, rows) => {
+    if (err) {
+      console.error('Erro ao recuperar livros:', err.message);
+      return res.status(500).json({ message: 'Erro ao recuperar livros', error: err.message });
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Nenhum livro encontrado' });
+    }
+
+    // Resposta com a lista de livros
+    res.status(200).json(rows);  // As URLs das imagens estarão dentro da propriedade `imagem_url`
   });
 });

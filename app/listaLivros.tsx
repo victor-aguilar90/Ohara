@@ -1,3 +1,5 @@
+/*
+
 import { Text, ScrollView, StyleSheet, Modal, Pressable, View, Image } from "react-native";
 import { useRouter } from "expo-router";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -288,3 +290,5 @@ const Styles = StyleSheet.create ({
         fontSize: RFPercentage(2),
     },
 })
+
+*/

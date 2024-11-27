@@ -20,10 +20,10 @@ export default function Index() {
 
   const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleLoginAluno = async () => {
     setLoading(true);
     setError('');
-    console.log('Iniciando o processo de login');
+    console.log('Iniciando o processo de login de aluno');
   
     try {
       console.log('Enviando requisição ao servidor com:', { username, password });
@@ -41,9 +41,9 @@ export default function Index() {
   
       if (response.ok) {
         if (data.token) {
-          console.log('Login bem-sucedido, armazenando token no AsyncStorage');
+          console.log('Login de aluno bem-sucedido, armazenando token no AsyncStorage');
           await AsyncStorage.setItem('userToken', data.token);
-          console.log('Armazenando aluno:', data.aluno); // Log para conferir os dados
+          console.log('Armazenando aluno:', data.aluno); 
           await AsyncStorage.setItem('aluno', JSON.stringify(data.aluno));
           
           router.push('/principal');
@@ -54,13 +54,53 @@ export default function Index() {
         setError(data.message || 'Erro ao tentar fazer login');
       }
     } catch (err) {
-      console.error('Erro no bloco catch durante o login:', err);
+      console.error('Erro no bloco catch durante o login de aluno:', err);
       setError('Erro ao tentar fazer login');
     } finally {
       setLoading(false);
     }
   };
+
+  const handleLoginBiblioteca = async () => {
+    setLoading(true);
+    setError('');
+    console.log('Iniciando o processo de login de biblioteca');
   
+    try {
+      console.log('Enviando requisição ao servidor com:', { username, password });
+      const response = await fetch('http://192.168.10.181:3000/login/biblioteca', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      console.log('Resposta recebida do servidor:', response);
+      const data = await response.json();
+      console.log('Dados retornados do servidor:', data);
+  
+      if (response.ok) {
+        if (data.token) {
+          console.log('Login de biblioteca bem-sucedido, armazenando token no AsyncStorage');
+          await AsyncStorage.setItem('userToken', data.token);
+          console.log('Armazenando bibliotecário:', data.bibliotecario); 
+          await AsyncStorage.setItem('bibliotecario', JSON.stringify(data.bibliotecario));
+          
+          router.push('/bibliotecario');
+        } else {
+          setError('Token inválido ou não encontrado');
+        }
+      } else {
+        setError(data.message || 'Erro ao tentar fazer login');
+      }
+    } catch (err) {
+      console.error('Erro no bloco catch durante o login de biblioteca:', err);
+      setError('Erro ao tentar fazer login');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={Styles.container}>
@@ -85,17 +125,24 @@ export default function Index() {
             value={password}
             onChangeText={setPassword}
           />
-          <Pressable style={Styles.botao} onPress={handleLogin} disabled={loading}>
+          <Pressable style={Styles.botao} onPress={handleLoginAluno} disabled={loading}>
             {loading ? (
               <ActivityIndicator size="small" color="white" />
             ) : (
-              <Text style={Styles.botaoTexto}>ENTRAR</Text>
+              <Text style={Styles.botaoTexto}>ENTRAR COMO ALUNO</Text>
+            )}
+          </Pressable>
+          <Pressable style={Styles.botao} onPress={handleLoginBiblioteca} disabled={loading}>
+            {loading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text style={Styles.botaoTexto}>ENTRAR COMO BIBLIOTECÁRIO</Text>
             )}
           </Pressable>
           {error && <Text style={Styles.error}>{error}</Text>}
           <Text style={Styles.txt}>Esqueceu a senha?</Text>
-          <Text style={Styles.cadastro} onPress={() => router.push('/listaLivros')}>
-            Recuperar senha
+          <Text style={Styles.cadastro} onPress={() => router.push('/cadastro')}>
+            Trocar senha
           </Text>
         </View>
       )}
