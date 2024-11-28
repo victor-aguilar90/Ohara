@@ -37,7 +37,7 @@ export default function Principal() {
       try {
         const storedToken = await AsyncStorage.getItem('userToken');
         if (storedToken) {
-          const response = await fetch('http://192.168.10.181:3000/me', {
+          const response = await fetch('http://192.168.86.205:3000/me', {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${storedToken}` },
           });
@@ -104,7 +104,7 @@ export default function Principal() {
               <View style={Styles.caixaBotoes}>
                 <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/notas')}>
                   <FontAwesomeIcon icon={faChartColumn} size={40} />
-                  <Text style={Styles.botoesTxt}>Gráfico do Aluno</Text>
+                  <Text style={Styles.botoesTxt}>Notas e Faltas</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={Styles.botoes} onPress={() => router.push('/declaracoes')}>
                   <FontAwesomeIcon icon={faClipboard} size={40} />
@@ -158,7 +158,7 @@ const Styles = StyleSheet.create({
   },
   txt: {
     fontFamily: "Regular",
-    fontSize: RFPercentage(3.2),
+    fontSize: RFPercentage(3),
   },
   caixa: {
     width: 293,
@@ -180,12 +180,12 @@ const Styles = StyleSheet.create({
   labels: {
     width: 243,
     fontFamily: "Regular",
-    fontSize: RFPercentage(2.1),
+    fontSize: RFPercentage(2),
   },
   dados: {
     width: 243,
     fontFamily: "Light",
-    fontSize: RFPercentage(2),
+    fontSize: RFPercentage(1.8),
     marginBottom: 15,
   },
   caixaBotoes: {
@@ -209,7 +209,7 @@ const Styles = StyleSheet.create({
   botoesTxt: {
     width: 95,
     textAlign: "center",
-    fontSize: RFPercentage(2.2),
+    fontSize: RFPercentage(1.9),
     fontFamily: "Light",
     marginTop: 10,
   },

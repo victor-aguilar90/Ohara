@@ -12,7 +12,7 @@ const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRIT
 
 // Dados do novo aluno
 const novoAluno = {
-  nome: 'Maria Oliveira',
+  nome: 'Mario Oliveira',
   data_nascimento: '2004-06-10',
   endereco: 'Rua dos Estudantes, 100',
   telefone: '11987654321',

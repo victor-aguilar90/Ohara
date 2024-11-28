@@ -81,11 +81,11 @@ export default function Notas() {
                 </View>
                 <View style={Styles.caixaNotas}>
                     <Text style={Styles.titNotas}>Freq. Atual:</Text>
-                    <Text style={Styles.notas}>{getRandomNumber(50, 100)}</Text>
+                    <Text style={Styles.notas}>{getRandomNumber(70, 100)}</Text>
                 </View>
                 <View style={Styles.caixaNotas}>
                     <Text style={Styles.titNotas}>Freq. Total:</Text>
-                    <Text style={Styles.notas}>{getRandomNumber(50, 100)}</Text>
+                    <Text style={Styles.notas}>{getRandomNumber(70, 100)}</Text>
                 </View>
             </View>
 
@@ -142,7 +142,7 @@ const Styles = StyleSheet.create({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: RFPercentage(3.5)
+        fontSize: RFPercentage(3.3)
     },
 
     pickerButton: {
@@ -158,7 +158,7 @@ const Styles = StyleSheet.create({
     buttonText: {
         color: 'Black',
         fontFamily: "Regular",
-        fontSize: RFPercentage(1.9),
+        fontSize: RFPercentage(1.65),
         marginLeft: 15
     },
 
@@ -181,7 +181,7 @@ const Styles = StyleSheet.create({
     itemText: {
         color: 'Black',
         fontFamily: "Regular",
-        fontSize: RFPercentage(1.9),
+        fontSize: RFPercentage(1.6),
         padding: 10
     },
 
@@ -209,12 +209,12 @@ const Styles = StyleSheet.create({
         textAlign: "center",
         width: "80%",
         fontFamily: "Regular",
-        fontSize: RFPercentage(2)
+        fontSize: RFPercentage(1.75)
     },
 
     notas: {
         marginTop: 5,
         fontFamily: "Light",
-        fontSize: RFPercentage(3)
+        fontSize: RFPercentage(2.7)
     }
 });

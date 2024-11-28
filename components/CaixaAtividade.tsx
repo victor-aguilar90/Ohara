@@ -36,11 +36,11 @@ const Styles = StyleSheet.create({
   },
   materia: {
     fontFamily: "Regular",
-    fontSize: RFPercentage(2.4),
+    fontSize: RFPercentage(2.2),
   },
   descricao: {
     fontFamily: "Light",
-    fontSize: RFPercentage(1.85),
+    fontSize: RFPercentage(1.65),
   },
   enviarAtv: {
     width: 60,

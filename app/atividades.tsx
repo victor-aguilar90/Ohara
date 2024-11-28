@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Modal, Pressable, Alert } from "react-native";
-import { faArrowLeft, faPaperclip, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPaperclip, faXmark, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
@@ -24,7 +24,7 @@ export default function Atividades() {
     const fetchAtividades = async () => {
         const token = await getToken();
         try {
-            const response = await fetch('http://192.168.10.181:3000/atividades', {
+            const response = await fetch('http://192.168.86.205:3000/atividades', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -121,7 +121,7 @@ export default function Atividades() {
                         !atividade.isCompleted && (
                             <CaixaAtividade
                                 key={atividade.id}
-                                materia={atividade.materia}
+                                materia={atividade.materia || "Matematica"}
                                 descricao={atividade.descricao}
                                 popup={() => pickImage(atividade.id)}
                             />
@@ -136,11 +136,9 @@ export default function Atividades() {
                 onRequestClose={() => setSelectedImage(null)}
             >
                 <View style={Styles.fundo}>
-                    <View style={Styles.caixa}>
-                        <Text style={Styles.tituloAtv}>Atividade Enviada</Text>
-                        <Pressable style={Styles.fecharPopup} onPress={() => setSelectedImage(null)}>
-                            <FontAwesomeIcon icon={faXmark} size={26} color="black"/>
-                        </Pressable>
+                    <View style={Styles.popup}>
+                        <FontAwesomeIcon icon={faCircleCheck} size={45} color="green" />
+                        <Text style={Styles.txtPopup}>Atividade enviada com sucesso!</Text>
                     </View>
                 </View>
             </Modal>
@@ -184,7 +182,7 @@ const Styles = StyleSheet.create({
 
     titulo: {
         fontFamily: "Regular",
-        fontSize: RFPercentage(4.2)
+        fontSize: RFPercentage(3.2)
     },
 
     rolarAtv:{
@@ -194,31 +192,25 @@ const Styles = StyleSheet.create({
     },
 
     fundo: {
-        flex:1,
+        flex: 1,
+        justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.4)",
+      },
+      popup: {
+        width:"80%",
+        height: 300,
         justifyContent: "center",
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    },
-
-    caixa: {
-        width: "80%",
-        height: 400,
-        padding: 20,
+        alignItems: "center",
         backgroundColor: "white",
-        borderRadius: 20,
-        justifyContent: "center",
-        position: "relative"
-    },
-
-    tituloAtv: {
+        borderRadius: 10,
+        padding: 15,
+      },
+      txtPopup: {
+        width: "70%",
         fontFamily: "Medium",
-        fontSize: RFPercentage(2.7),
-        marginBottom: 5
-    },
-
-    fecharPopup: {
-        top: "5%",
-        right: "5%",
-        position: "absolute"
-    }
+        fontSize: RFPercentage(2.4),
+        textAlign: "center",
+        marginTop: 20,
+      },
 });

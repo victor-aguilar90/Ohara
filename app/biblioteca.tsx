@@ -147,13 +147,13 @@ const Styles = StyleSheet.create({
     },
     titulo: {
         fontFamily: "Regular",
-        fontSize: RFPercentage(4)
+        fontSize: RFPercentage(3.5)
     },
     itens: {
         width: "80%",
         flexDirection: "row",
         justifyContent: "center",
-        height: 140,
+        height: 130,
         marginBottom: 25,
         alignSelf: "center"
     },
@@ -162,12 +162,13 @@ const Styles = StyleSheet.create({
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "white",
         elevation: 5,
         borderRadius: 15
     },
     txtBotao: {
         fontFamily: "Regular",
-        fontSize: RFPercentage(1.9),
+        fontSize: RFPercentage(1.76),
         marginTop: 15
     },
     item: {
@@ -179,12 +180,14 @@ const Styles = StyleSheet.create({
     imagem: {
         width: 120,
         height: 180,
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
         borderRadius: 8,
         marginBottom: 10
     },
     tituloLivro: {
+        width: "80%",
         fontFamily: "Medium",
-        fontSize: RFPercentage(2.1),
+        fontSize: RFPercentage(1.8),
         textAlign: "center"
     },
     row: {
