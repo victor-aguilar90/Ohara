@@ -25,7 +25,7 @@ app.use(express.json());
 
 
 // Conectar ao banco de dados SQLite
-const db = new sqlite3.Database('/home/orcus/db/ohara.db', sqlite3.OPEN_READWRITE, (err) => {
+const db = new sqlite3.Database('/desktop/ohara/server/ohara.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.error('Erro ao conectar com o banco de dados:', err.message);
   } else {
