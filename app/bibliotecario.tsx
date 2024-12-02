@@ -31,7 +31,7 @@ export default function Biblioteca() {
     try {
       const storedToken = await AsyncStorage.getItem('userToken');
       if (storedToken) {
-        const response = await fetch('http://192.168.86.205:3000/mee', {
+        const response = await fetch('http://192.168.10.181:3000/mee', {
           method: 'GET',
           headers: { 'Authorization': `Bearer ${storedToken}` },
         });

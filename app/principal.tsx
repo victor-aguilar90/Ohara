@@ -37,7 +37,7 @@ export default function Principal() {
       try {
         const storedToken = await AsyncStorage.getItem('userToken');
         if (storedToken) {
-          const response = await fetch('http://192.168.86.205:3000/me', {
+          const response = await fetch('http://192.168.10.181:3000/me', {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${storedToken}` },
           });
@@ -88,7 +88,7 @@ export default function Principal() {
               <View style={Styles.topo}>
                 <View style={Styles.titulo}>
                   <Text style={Styles.diaMes}>{dataDia}</Text>
-                  <Text style={Styles.txt}>Olá, {aluno.nome}!</Text>
+                  <Text style={Styles.txt}>Olá, {"João"}!</Text>
                 </View>
                 <FontAwesomeIcon icon={faBell} size={36} />
               </View>

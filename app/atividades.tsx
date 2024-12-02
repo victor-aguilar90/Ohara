@@ -24,7 +24,7 @@ export default function Atividades() {
     const fetchAtividades = async () => {
         const token = await getToken();
         try {
-            const response = await fetch('http://192.168.86.205:3000/atividades', {
+            const response = await fetch('http://192.168.10.181:3000/atividades', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

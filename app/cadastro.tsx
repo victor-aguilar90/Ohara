@@ -25,7 +25,7 @@ export default function Cadastro() {
         }
     
         try {
-            const response = await fetch('http://192.168.86.205:3000/enviarCodigo', {
+            const response = await fetch('http://192.168.10.181:3000/enviarCodigo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

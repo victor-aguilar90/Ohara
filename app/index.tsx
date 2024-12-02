@@ -27,7 +27,7 @@ export default function Index() {
   
     try {
       console.log('Enviando requisição ao servidor com:', { username, password });
-      const response = await fetch('http://192.168.86.205:3000/login', {
+      const response = await fetch('http://192.168.10.181:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export default function Index() {
   
     try {
       console.log('Enviando requisição ao servidor com:', { username, password });
-      const response = await fetch('http://192.168.86.205:3000/login/biblioteca', {
+      const response = await fetch('http://192.168.10.181:3000/login/biblioteca', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

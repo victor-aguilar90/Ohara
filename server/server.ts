@@ -18,7 +18,7 @@ const port = 3000;
 
 // Usando o middleware CORS
 app.use(cors({
-  origin: ['http://192.168.86.205:3000', 'http://localhost:3000', '*']  // Altere conforme sua configuração
+  origin: ['http://192.168.10.181:3000', 'http://localhost:3000', '*']  // Altere conforme sua configuração
 }
 ));
 app.use(express.json());
@@ -113,7 +113,7 @@ function login(username: string, password: string, callback: (error: Error | nul
 
 // Função para verificar login na API da biblioteca
 function checkLibraryLogin(username: string, password: string, callback: (error: Error | null, user?: any | null) => void): void {
-  fetch('http://192.168.86.205:3000/biblioteca/login', {
+  fetch('http://192.168.10.181:3000/biblioteca/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })

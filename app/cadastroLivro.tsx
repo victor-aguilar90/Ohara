@@ -35,7 +35,7 @@ export default function CadastroLivro() {
         };
 
         try {
-            const response = await fetch('http://192.168.86.205:3000/cadastrar-livro', {
+            const response = await fetch('http://192.168.10.181:3000/cadastrar-livro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

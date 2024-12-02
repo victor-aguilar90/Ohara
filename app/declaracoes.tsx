@@ -55,7 +55,7 @@ export default function Declaracoes() {
     try {
       const token = await getToken(); // Obtém o token antes de fazer a solicitação
       console.log('Iniciando solicitação de declaração...');
-      const response = await fetch('http://192.168.86.205:3000/solicitar-declaracao', {
+      const response = await fetch('http://192.168.10.181:3000/solicitar-declaracao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export default function Declaracoes() {
     try {
       const token = await getToken(); // Obtém o token antes de consultar
       console.log('Consultando declaração com protocolo:', protocolo);
-      const response = await fetch(`http://192.168.86.205:3000/minhas-declaracoes`, {
+      const response = await fetch(`http://192.168.10.181:3000/minhas-declaracoes`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
